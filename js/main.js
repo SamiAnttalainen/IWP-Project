@@ -43,10 +43,10 @@ function create() {
 
 
     // Player
-    player = this.physics.add.sprite(100, 300);
+    player = this.physics.add.sprite(100, 300, 'lena12');
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
-    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(platforms, player);
 
 
     // Player animations
@@ -81,7 +81,7 @@ function create() {
     });
 
     this.anims.create({
-        key: 'kneel',
+        key: 'crouch',
         frames: [
             { key: 'lena1' },
         ],
@@ -102,36 +102,42 @@ function create() {
 
 }
 
+let crouching = false; // Add this line outside of your update function to track crouching state across updates
+
 function update() {
+    this.physics.add.collider(platforms, player);
 
     if (cursors.left.isDown) {
         player.setVelocityX(-160); // Move left
         if (player.body.touching.down) {
-        player.anims.play('movement', true);
+            player.anims.play('movement', true);
         }
         player.setScale(-1, 1); // Flip sprite to face left
     } else if (cursors.right.isDown) {
         player.setVelocityX(160); // Move right
         if (player.body.touching.down) {
-        player.anims.play('movement', true); // Reuse 'left' animation for moving right
+            player.anims.play('movement', true); // Reuse 'left' animation for moving right
         }
         player.setScale(1, 1); // Flip sprite back to face right
     } else if (cursors.up.isDown && player.body.touching.down) {
         player.setVelocityY(-330); // Jump
         player.anims.play('jump', true);
     } else if (cursors.down.isDown && player.body.touching.down) {
-        player.anims.play('kneel', true);
-    }
-    // else if (player.body.velocity.y > 0) {
-    //     player.anims.play('fall', true);
-    // }
-    
-    else {
-        player.setVelocityX(0); // Stop
-        if (player.body.touching.down) {
-        player.anims.play('idle', true);
+        if (!crouching) {
+            crouching = true;
+        }
+        player.anims.play('crouch', true);
+        player.body.setSize(81, 86, true);
+    } else {
+        player.setVelocityX(0);
+
+        if (player.body.touching.down && !cursors.down.isDown) {
+            if (crouching) {
+                player.y -= 41;
+                crouching = false;
+            }
+            player.body.setSize(81, 127, true);
+            player.anims.play('idle', true);
         }
     }
-    
 }
-    
