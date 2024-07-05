@@ -1,8 +1,11 @@
 const worldWidth = 800;
 const worldHeight = 600;
+const LEFT = 0;
+const RIGHT = 1;
+const IDLE = 2;
+// let health = 10;
+// const maxHealth = 10;
 
-
-// Enemy movement inspired by https://www.youtube.com/watch?v=IFt_YwDVFNY
 
 let config = {
     type: Phaser.AUTO,
@@ -42,30 +45,10 @@ function preload() {
 
 function create() {
 
-
     // Platforms
     platforms = this.physics.add.staticGroup();
     platforms.create(400, 568, 'bottomFloor').setScale(3).refreshBody();
     platforms.create(400, 395, 'block').setScale(2).refreshBody();
-
-
-
-
-    // Player
-    player = this.physics.add.sprite(100, 300, 'lena12');
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    this.physics.add.collider(platforms, player);
-    this.physics.add.overlap(player, platforms, overlapping, null, this);
-
-
-    // Enemies
-    skull = this.physics.add.sprite(400, 300, 'enemy1');
-    skull.setCollideWorldBounds(true);
-    this.physics.add.collider(platforms, skull);
-    this.physics.add.collider(player, skull);
-    this.physics.add.overlap(player, skull, overlapping, null, this);
-
 
     // Player animations
     this.anims.create({
@@ -119,7 +102,7 @@ function create() {
             { key: 'lena20' },
             { key: 'lena19' },
         ],
-        frameRate: 10,
+        frameRate: 5,
     });
 
     this.anims.create({
@@ -129,7 +112,7 @@ function create() {
             { key: 'lena18' },
             { key: 'lena16' },
         ],
-        frameRate: 10,
+        frameRate: 5,
     });
 
     this.anims.create({
@@ -139,12 +122,12 @@ function create() {
             { key: 'lena14' },
             { key: 'lena13' },
         ],
-        frameRate: 10,
+        frameRate: 5,
     });
 
 
     this.anims.create({
-        key: 'skullIdle',
+        key: 'skullMovement',
         frames: [
             { key: 'enemy1' },
             { key: 'enemy2' },
@@ -156,14 +139,29 @@ function create() {
         repeat: -1,
     })
 
-    skull.anims.play('skullIdle', true);
+    // Player
+    player = new Lena(this, 100, 300);
+    player.setCollideWorldBounds(true);
+    this.physics.add.collider(platforms, player);
+    this.physics.add.overlap(player, platforms, overlapping, null, this);
+
+    skulls = this.physics.add.group({
+        classType: Skull,
+        key: 'enemy1',
+        repeat: 1,
+        setXY: { x: 400, y: 300, stepX: 200 },
+    });
+    this.physics.add.collider(platforms, skulls);
+    this.physics.add.collider(player, skulls, hitSkull, null, this);
+    skulls.children.iterate(function (skull) {
+        skull.setCollideWorldBounds(true);
+    });
 
     // Player movement cursors and ability keys
     cursors = this.input.keyboard.createCursorKeys();
     mouseOne = this.input.mousePointer.leftButtonDown();
 
-
-
+    
 }
 
 let crouching = false;
@@ -180,6 +178,7 @@ function update() {
         if (player.body.touching.down) {
             player.anims.play('movement', true);
         } else if (!player.body.touching.down && this.input.mousePointer.leftButtonDown()) {
+            attacking = true;
             player.anims.play('jumpingAttack', true);
         }
         player.flipX = true;
@@ -191,6 +190,7 @@ function update() {
         if (player.body.touching.down) {
             player.anims.play('movement', true);
         } else if (!player.body.touching.down && this.input.mousePointer.leftButtonDown()) {
+            attacking = true;
             player.anims.play('jumpingAttack', true);
         }
         player.flipX = false;
@@ -203,6 +203,7 @@ function update() {
             player.setVelocityY(-330); // Jump
             player.anims.play('jump', true);
         } else if (!player.body.touching.down && this.input.mousePointer.leftButtonDown()) {
+            attacking = true;
             player.anims.play('jumpingAttack', true);
         }
         
@@ -228,16 +229,18 @@ function update() {
             // player.body.setSize(127, 152, true);
 
         } else if (!player.body.touching.down) {
+            attacking = true;
             player.anims.play('jumpingAttack', true);
         }
     }   else if (!player.body.touching.down && (cursors.left.isDown || cursors.right.isDown)) {
         if (this.input.mousePointer.leftButtonDown()) { 
+            attacking = true;
             player.anims.play('jumpingAttack', true);
         }}
 
     else {
         player.setVelocityX(0);
-
+        attacking = false;
         if (player.body.touching.down && !cursors.down.isDown) {
             if (crouching) {
                 standingUp();
@@ -260,4 +263,92 @@ function standingUp() {
 // Function prevents player from falling through the platform when attacking.
 function overlapping() {
     player.body.setVelocityY(-75);
+}
+
+function hitSkull(player, skull) {
+
+    
+    if (attacking) { // If attack animation is on, then the skull is destroyed.
+        skull.disableBody(true, true);
+    }
+     else // Else player loses health and is pushed back.
+     {
+        let health;
+        health = player.getHealth() - 1;
+        player.setHealth(health);
+        player.setTint(0xff0000);
+        player.x -= 100;
+        setTimeout(() => {
+            player.clearTint();
+        }, 1000);
+    }
+}
+
+
+// Classes
+
+// Player class
+class Lena extends Phaser.Physics.Arcade.Sprite {
+
+    constructor(scene, x, y) {
+        super(scene, x, y, 'lena12');
+        scene.add.existing(this);
+        scene.physics.world.enableBody(this);
+        this.anims.play('idle', true);
+        this.health = 10;
+        this.maxHealth = 10;
+    }
+
+    getHealth() {
+        return this.health;
+    }
+
+    setHealth(health) {
+        this.health = health;
+    }
+    
+}
+
+// Enemy classes inspired by SUPERTOMMY https://www.youtube.com/watch?v=IFt_YwDVFNY 
+
+// Skull enemy class
+class Skull extends Phaser.Physics.Arcade.Sprite {
+
+    constructor(scene, x, y) {
+        super(scene, x, y, 'enemy1');
+        scene.add.existing(this);
+        scene.physics.world.enableBody(this);
+        this.anims.play('skullMovement', true);
+        this.movement();
+    }
+
+    movement() {
+        this.enemyTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(2000, 4000),
+            callback: this.skullMovement,
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    skullMovement() {
+        let direction;
+        if (this.body.velocityX < 0) {
+            direction = Phaser.Math.Between(IDLE, RIGHT);
+        } else if (this.body.velocityX > 0) {
+            direction = Phaser.Math.Between(IDLE, LEFT);
+        } else {
+            direction = Phaser.Math.Between(LEFT, RIGHT);
+        }
+    
+        if (direction === LEFT) {
+            this.setVelocityX(-50);
+            this.flipX = false;
+        } else if (direction === RIGHT) {
+            this.setVelocityX(50);
+            this.flipX = true;
+        } else {
+            this.setVelocityX(0);
+        }
+    }
 }
