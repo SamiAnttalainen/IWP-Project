@@ -18,7 +18,15 @@ let config = {
             debug: true
         }
     },
-    scene: Level_1
+    scene: [
+        MainMenu,
+        Level_1,
+        GameOver,
+        Options,
+        Info,
+        About,
+        ControlsInfo
+    ]
 };
 
 const game = new Phaser.Game(config);

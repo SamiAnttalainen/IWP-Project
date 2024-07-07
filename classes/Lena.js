@@ -8,6 +8,8 @@ class Lena extends Phaser.Physics.Arcade.Sprite {
         this.anims.play('idle', true);
         this.health = 10;
         this.maxHealth = 10;
+        this.crouching = false;
+        this.attacking = false;
     }
 
     getHealth() {

@@ -5,6 +5,8 @@ function loadImages(scene) {
     for (let i = 1; i <= 97; i++) {
         scene.load.image('enemy' + i, 'assets/enemies/enemy (' + i + ').png');
     }
+
+    scene.load.spritesheet('lena', 'assets/lenaMovementSpriteSheet.png', { frameWidth: 80, frameHeight: 120 });
     scene.load.image('platform', 'assets/platform.png');
     scene.load.image('block', 'assets/block.png');
     scene.load.image('heartFull', 'assets/heartFull.png');
@@ -45,6 +47,12 @@ function createAnimations(scene) {
         frameRate: 10,
         repeat: -1,
     });
+    // scene.anims.create({
+    //     key: 'movement',
+    //     frames: scene.anims.generateFrameNumbers('lena', { start: 0, end: 5 }),
+    //     frameRate: 10,
+    //     repeat: -1
+    // });
 
     scene.anims.create({
         key: 'jump',
@@ -121,20 +129,20 @@ function createAnimations(scene) {
     });
 }
 
-function createPlayer(scene) {
+function createPlayer(scene, posX, posY) {
     // Player
-    scene.player = new Lena(scene, 100, 400);
+    scene.player = new Lena(scene, posX, posY);
     scene.player.setCollideWorldBounds(true);
     scene.physics.add.collider(scene.platforms, scene.player);
     scene.physics.add.overlap(scene.player, scene.platforms, () => overlapping(scene), null, scene);
 }
 
-function createSkulls(scene) {
+function createSkulls(scene, posX, posY) {
     scene.skulls = scene.physics.add.group({
         classType: Skull,
         key: 'enemy1',
         repeat: 1,
-        setXY: { x: 400, y: 300, stepX: 200 },
+        setXY: { x: posX, y: posY, stepX: 200 },
     });
     scene.physics.add.collider(scene.platforms, scene.skulls);
     scene.physics.add.collider(scene.player, scene.skulls, (player, skull) => hitSkull(scene, player, skull), null, scene);

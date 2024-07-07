@@ -5,6 +5,7 @@ class Level_1 extends Phaser.Scene {
     }
 
     preload() {
+        // Loads all the image assets
         loadImages(this);
     }
 
@@ -18,16 +19,12 @@ class Level_1 extends Phaser.Scene {
 
     // Creates and Loads Player animations
     createAnimations(this);
-    
-    // Variables
-    this.attacking = false;
-    this.crouching = false;
 
     // Creates  and loads player character
-    createPlayer(this);
+    createPlayer(this, 100, 470);
     
     // Creates and loads skull enemies
-    createSkulls(this);
+    createSkulls(this, 400, 500);
 
     // Player movement this.cursors and ability keys
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -36,6 +33,11 @@ class Level_1 extends Phaser.Scene {
 
     update() {
         gameMovement(this);
+
+        // Checks if player health is 0, then game over
+        if (this.player.getHealth() <= 0) {
+            this.scene.start('GameOver');
+        }
     }
 }
 window.Level_1 = Level_1;
