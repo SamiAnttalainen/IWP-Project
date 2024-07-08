@@ -1,5 +1,5 @@
 // Level one of the game
-class Level_1 extends Phaser.Scene {
+class Level_1_1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level_1' });
     }
@@ -40,4 +40,4 @@ class Level_1 extends Phaser.Scene {
         }
     }
 }
-window.Level_1 = Level_1;
+window.Level_1_1 = Level_1_1;

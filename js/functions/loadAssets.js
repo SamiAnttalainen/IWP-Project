@@ -7,13 +7,13 @@ function loadImages(scene) {
     }
 
     scene.load.spritesheet('lena', 'assets/lenaMovementSpriteSheet.png', { frameWidth: 80, frameHeight: 120 });
-    scene.load.image('platform', 'assets/platform.png');
-    scene.load.image('block', 'assets/block.png');
-    scene.load.image('heartFull', 'assets/heartFull.png');
-    scene.load.image('heartEmpty', 'assets/heartEmpty.png');
-    scene.load.image('bottomFloor', 'assets/bottomFloor.png');
-    scene.load.image('bottomTiles', 'assets/bottomTiles.png');
-    scene.load.image('pillar', 'assets/pillar.png');
+    scene.load.image('platform', 'assets/screenAssets/platform.png');
+    scene.load.image('block', 'assets/screenAssets/block.png');
+    scene.load.image('heartFull', 'assets/screenAssets/heartFull.png');
+    scene.load.image('heartEmpty', 'assets/screenAssets/heartEmpty.png');
+    scene.load.image('bottomFloor', 'assets/screenAssets/bottomFloor.png');
+    scene.load.image('bottomTiles', 'assets/screenAssets/bottomTiles.png');
+    scene.load.image('pillar', 'assets/screenAssets/pillar.png');
 }
 
 function createHealthBar(scene) {
