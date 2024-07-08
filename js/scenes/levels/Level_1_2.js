@@ -24,6 +24,7 @@ class Level_1_2 extends Phaser.Scene {
         // Creates and loads other assets
         createHealthBar(this);
         createAnimations(this); // Turn on when debugging
+        createSkullAnimations(this); // Turn on when debugging
         this.cursors = this.input.keyboard.createCursorKeys();
         createPlayer(this, 100, 470);
         createSkulls(this, 200, 100, 4);

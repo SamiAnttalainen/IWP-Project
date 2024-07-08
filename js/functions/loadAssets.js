@@ -114,7 +114,9 @@ function createAnimations(scene) {
         ],
         frameRate: 5,
     });
+}
 
+function createSkullAnimations(scene) {
     scene.anims.create({
         key: 'skullMovement',
         frames: [
@@ -127,6 +129,7 @@ function createAnimations(scene) {
         frameRate: 3,
         repeat: -1,
     });
+
 }
 
 function createBossOneAnimations(scene) {
@@ -210,6 +213,7 @@ window.createHealthBar = createHealthBar;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
 window.createSkulls = createSkulls;
+window.createSkullAnimations = createSkullAnimations;
 window.createBossOneAnimations = createBossOneAnimations;
 window.createBossOne = createBossOne;
 window.loadLevelOne = loadLevelOne;

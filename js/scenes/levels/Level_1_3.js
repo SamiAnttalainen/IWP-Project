@@ -25,10 +25,11 @@ class Level_1_3 extends Phaser.Scene {
         // Creates and loads other assets
         createHealthBar(this);
         createAnimations(this); // Turn on when debugging
+        createSkullAnimations(this); // Turn on when debugging
         this.cursors = this.input.keyboard.createCursorKeys();
         createPlayer(this, 100, 470);
         createSkulls(this, 100, 100, 6);
-        // this.player.setHealth(this.playerData.health);
+        // this.player.setHealth(this.playerData.health); // Turn off when debugging
         updateHealth(this);
     }
 

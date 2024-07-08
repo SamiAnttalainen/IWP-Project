@@ -20,6 +20,9 @@ class Level_1_1 extends Phaser.Scene {
     // Creates and Loads Player animations
     createAnimations(this);
 
+    // Creates and loads skull animations
+    createSkullAnimations(this);
+    
     // Creates  and loads player character
     createPlayer(this, 100, 470);
     

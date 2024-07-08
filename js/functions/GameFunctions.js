@@ -1,4 +1,3 @@
-
 function gameMovement(scene) {
     if (scene.cursors.left.isDown) {
         if (scene.player.crouching) {
