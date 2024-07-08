@@ -24,6 +24,10 @@ class Lena extends Phaser.Physics.Arcade.Sprite {
         this.health = health;
     }
 
+    getLena() {
+        return this;
+    }
+
     
 }
 window.Lena = Lena;

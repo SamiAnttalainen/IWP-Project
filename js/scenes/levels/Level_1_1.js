@@ -24,8 +24,8 @@ class Level_1_1 extends Phaser.Scene {
     createPlayer(this, 100, 470);
     
     // Creates and loads skull enemies
-    createSkulls(this, 400, 500);
-
+    createSkulls(this, 400, 500, 2);
+    
     // Player movement this.cursors and ability keys
     this.cursors = this.input.keyboard.createCursorKeys();
     
@@ -33,6 +33,10 @@ class Level_1_1 extends Phaser.Scene {
 
     update() {
         gameMovement(this);
+
+        if (this.skulls.countActive(true) === 0) {
+            loadNextLevel(this, 'Level_1_2');
+        }
 
         // Checks if player health is 0, then game over
         if (this.player.getHealth() <= 0) {

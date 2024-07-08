@@ -119,12 +119,39 @@ function hitSkull(scene, player, skull) {
     }
 }
 
+function hitBossOne(scene, player, boss) {
+    if (scene.player.attacking) {
+        boss.health -= 1;
+        console.log(scene.boss.health);
+        if (scene.boss.health <= 0) {
+            boss.alive = false;
+            boss.disableBody(true, true);
+
+
+        }
+    } else {
+        let health;
+        health = player.getHealth() - 1;
+        player.setHealth(health);
+        updateHealth(scene);
+        player.setTint(0xff0000);
+        if (player.flipX) {
+            player.x += 100;
+        } else {
+            player.x -= 100;
+        }
+        setTimeout(() => {
+            player.clearTint();
+        }, 1000);
+    }
+}
+
 // Updates the player's health bar icons when player takes damage.
 function updateHealth(scene) {
     const health = scene.player.getHealth();
     const maxHealth = scene.player.getMaxHealth();
-    console.log(health);
-    console.log(maxHealth);
+    // console.log(health);
+    // console.log(maxHealth);
     for (let i = 0; i < maxHealth; i++) {
         if (i < health) {
             scene.hearts.getChildren()[i].setTexture('heartFull');
@@ -163,6 +190,19 @@ function createScene(scene, title, items) {
             fontFamily: 'ArcadeClassic'
         }),
     ];
+}
+
+function loadNextLevel(scene, level) {
+    scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE',
+        {
+        fontSize: '64px',
+        fill: '#fff',
+        fontFamily: 'ArcadeClassic' 
+    });
+
+    setTimeout(() => {
+        scene.scene.start(level, { playerData: scene.player.getLena() });
+    }, 5000);
 }
 
 // Inputs for the main menu screen
@@ -266,6 +306,7 @@ window.standingUp = standingUp;
 window.overlapping = overlapping;
 window.hitSkull = hitSkull;
 window.updateHealth = updateHealth;
+window.loadNextLevel = loadNextLevel;
 window.createScene = createScene;
 window.gameOverButtons = gameOverButtons;
 window.updateMenuSelection = updateMenuSelection;

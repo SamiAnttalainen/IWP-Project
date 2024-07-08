@@ -129,6 +129,29 @@ function createAnimations(scene) {
     });
 }
 
+function createBossOneAnimations(scene) {
+    scene.anims.create({
+        key: 'boss1Movement',
+        frames: [
+            { key: 'boss1' },
+            { key: 'boss2' },
+            { key: 'boss3' },
+            { key: 'boss4' },
+            { key: 'boss5' },
+        ],
+        frameRate: 10,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'bossThrow',
+        frames: [
+            { key: 'bossThrow' },
+        ],
+    });
+
+}
+
 function createPlayer(scene, posX, posY) {
     // Player
     scene.player = new Lena(scene, posX, posY);
@@ -137,11 +160,11 @@ function createPlayer(scene, posX, posY) {
     scene.physics.add.overlap(scene.player, scene.platforms, () => overlapping(scene), null, scene);
 }
 
-function createSkulls(scene, posX, posY) {
+function createSkulls(scene, posX, posY, amount) {
     scene.skulls = scene.physics.add.group({
         classType: Skull,
         key: 'enemy1',
-        repeat: 1,
+        quantity: amount,
         setXY: { x: posX, y: posY, stepX: 200 },
     });
     scene.physics.add.collider(scene.platforms, scene.skulls);
@@ -149,6 +172,16 @@ function createSkulls(scene, posX, posY) {
     scene.skulls.children.iterate(function (skull) {
         skull.setCollideWorldBounds(true);
     });
+}
+
+function createBossOne(scene, posX, posY) {
+
+    scene.boss = new Boss_1(scene, posX, posY);
+    scene.boss.setScale(1.75)
+    scene.boss.setCollideWorldBounds(true);
+    scene.physics.add.collider(scene.platforms, scene.boss);
+    scene.physics.add.overlap(scene.player, scene.boss, (player, boss) => hitBossOne(scene, player, boss), null, scene);
+
 }
 
 
@@ -170,9 +203,13 @@ function loadLevelOne(scene) {
     });
 }
 
+
+
 window.loadImages = loadImages;
 window.createHealthBar = createHealthBar;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
 window.createSkulls = createSkulls;
+window.createBossOneAnimations = createBossOneAnimations;
+window.createBossOne = createBossOne;
 window.loadLevelOne = loadLevelOne;
