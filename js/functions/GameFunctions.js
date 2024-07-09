@@ -201,6 +201,7 @@ function loadNextLevel(scene, level) {
 
     setTimeout(() => {
         scene.scene.start(level, { playerData: scene.player.getLena() });
+        scene.scene.remove(scene.key);
     }, 5000);
 }
 
