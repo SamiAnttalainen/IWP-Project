@@ -177,9 +177,11 @@ function createSkulls(scene, posX, posY, amount) {
     });
 }
 
-function createBossOne(scene, posX, posY) {
+function createBoss(scene, number, posX, posY, health, image, animation) {
 
-    scene.boss = new Boss_1(scene, posX, posY);
+    if (number === 1) {
+        scene.boss = new Boss_1(scene, posX, posY, health, image, animation);
+    }
     scene.boss.setScale(1.75)
     scene.boss.setCollideWorldBounds(true);
     scene.physics.add.collider(scene.platforms, scene.boss);
@@ -215,5 +217,5 @@ window.createPlayer = createPlayer;
 window.createSkulls = createSkulls;
 window.createSkullAnimations = createSkullAnimations;
 window.createBossOneAnimations = createBossOneAnimations;
-window.createBossOne = createBossOne;
+window.createBoss = createBoss;
 window.loadLevelOne = loadLevelOne;
