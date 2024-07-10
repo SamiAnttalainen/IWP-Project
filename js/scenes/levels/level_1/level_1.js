@@ -15,8 +15,8 @@ class Level_1 extends Phaser.Scene {
     }
 
     create() {
-        // Loads level 1 level assets
-        loadLevelOne(this);
+        // Creates level 1 level assets
+        createLevelOne(this);
 
         // Creates and Loads player health bar
         createHealthBar(this);

@@ -5,14 +5,11 @@ class Level_1_4 extends Level_1 {
 
     preload() {
         super.preload();
-        for (let i=1; i <= 5; i++) {
-            this.load.image('boss'+i, 'assets/bosses/core/boss (' + i + ').png', { frameWidth: 104, frameHeight: 62 });
-        }
-        this.load.image('bossThrow', 'assets/bosses/core/boss_1_throw.png');
-        this.load.image('bossWeapon', 'assets/bosses/core/boss_1_weapon.png');
+        loadBossOneImages(this);
     }
 
     create() {
+        createAnimations(this);
         createBossOneAnimations(this);
         super.create();
         // this.player.setHealth(this.playerData.health);
