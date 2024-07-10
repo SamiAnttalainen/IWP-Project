@@ -1,21 +1,3 @@
-function loadImages(scene) {
-    for (let i = 1; i <= 21; i++) {
-        scene.load.image('lena' + i, 'assets/lena/lena_' + i + '.png');
-    }
-    for (let i = 1; i <= 97; i++) {
-        scene.load.image('enemy' + i, 'assets/enemies/enemy (' + i + ').png');
-    }
-
-    scene.load.spritesheet('lena', 'assets/lenaMovementSpriteSheet.png', { frameWidth: 80, frameHeight: 120 });
-    scene.load.image('platform', 'assets/screenAssets/platform.png');
-    scene.load.image('block', 'assets/screenAssets/block.png');
-    scene.load.image('heartFull', 'assets/screenAssets/heartFull.png');
-    scene.load.image('heartEmpty', 'assets/screenAssets/heartEmpty.png');
-    scene.load.image('bottomFloor', 'assets/screenAssets/bottomFloor.png');
-    scene.load.image('bottomTiles', 'assets/screenAssets/bottomTiles.png');
-    scene.load.image('pillar', 'assets/screenAssets/pillar.png');
-}
-
 function createHealthBar(scene) {
     // Health bar UI inspired by Scott Westover https://www.youtube.com/watch?v=5LUDslRr-74
     scene.hearts = scene.add.group({
@@ -185,12 +167,12 @@ function createBoss(scene, number, posX, posY, health, image, animation) {
     scene.boss.setScale(1.75)
     scene.boss.setCollideWorldBounds(true);
     scene.physics.add.collider(scene.platforms, scene.boss);
-    scene.physics.add.overlap(scene.player, scene.boss, (player, boss) => hitBossOne(scene, player, boss), null, scene);
+    scene.physics.add.overlap(scene.player, scene.boss, (player, boss) => hitBoss(scene, player, boss), null, scene);
 
 }
 
 
-function loadLevelOne(scene) {
+function createLevelOne(scene) {
     // // Platforms
     scene.platforms = scene.physics.add.staticGroup();
     scene.platforms.create(200, 568, 'bottomTiles').setScale(2).refreshBody();
@@ -209,8 +191,6 @@ function loadLevelOne(scene) {
 }
 
 
-
-window.loadImages = loadImages;
 window.createHealthBar = createHealthBar;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
@@ -218,4 +198,4 @@ window.createSkulls = createSkulls;
 window.createSkullAnimations = createSkullAnimations;
 window.createBossOneAnimations = createBossOneAnimations;
 window.createBoss = createBoss;
-window.loadLevelOne = loadLevelOne;
+window.createLevelOne = createLevelOne;

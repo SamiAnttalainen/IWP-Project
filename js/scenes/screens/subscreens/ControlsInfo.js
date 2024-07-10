@@ -25,6 +25,4 @@ class ControlsInfo extends Phaser.Scene {
         this.input.keyboard.on('keydown-SPACE', () => this.scene.start('Info'));
     }
 }
-
-
 window.ControlsInfo = ControlsInfo;
