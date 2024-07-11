@@ -1,9 +1,10 @@
 class Level_2 extends Phaser.Scene {
-    constructor(key, next, knights){
+    constructor(key, next, wasps, golems){
         super({ key: key });
         this.level = 2;
         this.next = next;
-        this.knights = knights;
+        this.wasps = wasps;
+        this.golems = golems;
     }
 
     init(data) {
@@ -32,7 +33,7 @@ class Level_2 extends Phaser.Scene {
     update() {
         gameMovement(this);
 
-        if (this.knights.countActive(true) === 0) {
+        if (this.wasps.countActive(true) === 0 && this.golems.countActive(true) === 0){
             loadNextLevel(this, this.next);
         }
 
@@ -43,7 +44,7 @@ class Level_2 extends Phaser.Scene {
     }
 
     createLevelTwo() {
-        
+        this.background = this.add.image(400, 300, 'night');
     }
 
 }

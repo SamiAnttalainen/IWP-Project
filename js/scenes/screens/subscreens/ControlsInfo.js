@@ -10,7 +10,7 @@ class ControlsInfo extends Phaser.Scene {
             fontFamily: 'ArcadeClassic' 
         });
         this.add.text(200, 250,
-            "MOVE LEFT:  LEFT ARROW\nMOVE RIGHT:  RIGHT ARROW\nJUMP:  UP ARROW\nCROUCH:  DOWN ARROW\nATTACK:  LEFT MOUSE\nGUARD:  RIGHT MOUSE", {
+            "MOVE LEFT:  LEFT ARROW\nMOVE RIGHT:  RIGHT ARROW\nJUMP:  UP ARROW\nCROUCH:  DOWN ARROW\nATTACK:  LEFT MOUSE\nGUARD:  SHIFT", {
             fontSize: '32px',
             fill: '#fff',
             fontFamily: 'ArcadeClassic'

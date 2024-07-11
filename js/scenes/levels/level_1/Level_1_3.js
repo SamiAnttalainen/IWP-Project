@@ -9,7 +9,7 @@ class Level_1_3 extends Level_1 {
         this.platforms.create(650, 375, 'bottomFloor').setScale(0.75).refreshBody();
         this.platforms.create(100, 350, 'bottomFloor').setScale(0.5).refreshBody();
         // this.player.setHealth(this.playerData.health);
-        createSkulls(this, 100, 100, 6);
+        createEnemies(this, 100, 100, 6, 'Skull');
         updateHealth(this);
     }
 }

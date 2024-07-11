@@ -61,6 +61,13 @@ function createAnimations(scene) {
     });
 
     scene.anims.create({
+        key: 'guard',
+        frames: [
+            { key: 'lena11' },
+        ]
+    })
+
+    scene.anims.create({
         key: 'idle',
         frames: [
             { key: 'lena12' },
@@ -114,6 +121,71 @@ function createSkullAnimations(scene) {
 
 }
 
+function createWaspAnimations(scene) {
+    scene.anims.create({
+        key: 'waspMovement',
+        frames: [
+            { key: 'enemy15' },
+            { key: 'enemy16' },
+        ],
+        frameRate: 3,
+        repeat: -1,
+    });
+}
+
+function createGolemAnimations(scene) {
+
+    scene.anims.create({
+        key: 'golemMovement',
+        frames: [
+            { key: 'enemy52' },
+            { key: 'enemy53' },
+            { key: 'enemy54' },
+            { key: 'enemy55' },
+        ],
+        frameRate: 3,
+        repeat: -1,
+    });
+}
+
+function createGhostAnimations(scene) {
+
+    scene.anims.create({
+        key: 'ghostMovement',
+        frames: [
+            { key: 'enemy17' },
+            { key: 'enemy18' },
+            { key: 'enemy19' },],
+        frameRate: 3,
+        repeat: -1,
+    });
+}
+
+function createKnightAnimations(scene) {
+    
+        scene.anims.create({
+            key: 'knightMovement',
+            frames: [
+                { key: 'enemy7' },
+                { key: 'enemy8' },
+                { key: 'enemy9' },
+                { key: 'enemy10' },
+            ],
+            frameRate: 3,
+            repeat: -1,
+        });
+
+        scene.anims.create({
+            key: 'knightAttack',
+            frames: [
+                { key: 'enemy11' },
+                { key: 'enemy12' },
+                { key: 'enemy13' },
+            ],
+            frameRate: 3,
+        });
+}
+
 function createBossOneAnimations(scene) {
     scene.anims.create({
         key: 'boss1Movement',
@@ -134,7 +206,75 @@ function createBossOneAnimations(scene) {
             { key: 'bossThrow' },
         ],
     });
+}
 
+function createBossTwoAnimations(scene) {
+    scene.anims.create({
+        key: 'boss2Movement',
+        frames: [
+            { key: 'death1' },
+            { key: 'death2' },
+            { key: 'death3' },
+        ],
+        frameRate: 10,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'bossAttack',
+        frames: [
+            { key: 'death4' },
+            { key: 'death5' },
+            { key: 'death6' },
+            { key: 'death7' },
+            { key: 'death9' },
+        ],
+    });
+
+    scene.anims.create({
+        key: 'bossProjectile',
+        frames: [
+            { key: 'death10' },
+            { key: 'death11' },
+            { key: 'death12' },
+        ],
+    });
+}
+
+function createBossThreeAnimations(scene) {
+
+    scene.anims.create({
+        key: 'boss3Movement',
+        frames: [
+            { key: 'gallagher1' },
+            { key: 'gallagher2' },
+            { key: 'gallagher3' },
+            { key: 'gallagher4' },
+            { key: 'gallagher5' },
+        ],
+    });
+
+    scene.anims.create({
+        key: 'boss3Attack',
+        frames: [
+            { key: 'gallagher6' },
+            { key: 'gallagher7' },
+        ]
+    });
+
+    scene.anims.create({
+        key: 'boss3Projectile_1',
+        frames: [
+            { key: 'ball1' },
+        ]    
+    });
+
+    scene.anims.create({
+        key: 'boss3Projectile_2',
+        frames: [
+            { key: 'ball2' },
+        ]
+    });
 }
 
 function createPlayer(scene, posX, posY) {
@@ -159,35 +299,84 @@ function createSkulls(scene, posX, posY, amount) {
     });
 }
 
+function createEnemies(scene, posX, posY, amount, type) {
+
+    if (type === 'Skull') {
+        scene.skulls = scene.physics.add.group({
+            classType: Skull,
+            key: 'enemy1',
+            quantity: amount,
+            setXY: { x: posX, y: posY, stepX: 200 },
+        });
+        scene.physics.add.collider(scene.platforms, scene.skulls);
+        scene.physics.add.collider(scene.player, scene.skulls, (player, skull) => hitSkull(scene, player, skull), null, scene);
+        scene.skulls.children.iterate(function (skull) {
+            skull.setCollideWorldBounds(true);
+        });
+    } else if (type === 'Wasp') {
+        scene.wasps = scene.physics.add.group({
+            classType: Wasp,
+            key: 'enemy15',
+            quantity: amount,
+            setXY: { x: posX, y: posY, stepX: 200 },
+        });
+        scene.physics.add.collider(scene.platforms, scene.wasps);
+        scene.physics.add.collider(scene.player, scene.wasps, (player, wasp) => hitWasp(scene, player, wasp), null, scene);
+        scene.wasps.children.iterate(function (wasp) {
+            wasp.setCollideWorldBounds(true);
+        });
+    } else if (type === 'Golem') {
+        scene.golems = scene.physics.add.group({
+            classType: Golem,
+            key: 'enemy52',
+            quantity: amount,
+            setXY: { x: posX, y: posY, stepX: 200 },
+        });
+        scene.physics.add.collider(scene.platforms, scene.golems);
+        scene.physics.add.collider(scene.player, scene.golems, (player, golem) => hitGolem(scene, player, golem), null, scene);
+        scene.golems.children.iterate(function (golem) {
+            golem.setCollideWorldBounds(true);
+        });
+    } else if (type === 'Ghost') {
+        scene.ghosts = scene.physics.add.group({
+            classType: Ghost,
+            key: 'enemy17',
+            quantity: amount,
+            setXY: { x: posX, y: posY, stepX: 200 },
+        });
+        scene.physics.add.collider(scene.platforms, scene.ghosts);
+        scene.physics.add.collider(scene.player, scene.ghosts, (player, ghost) => hitGhost(scene, player, ghost), null, scene);
+        scene.ghosts.children.iterate(function (ghost) {
+            ghost.setCollideWorldBounds(true);
+        });
+    } else if (type === 'Knight') {
+        scene.knights = scene.physics.add.group({
+            classType: Knight,
+            key: 'enemy7',
+            quantity: amount,
+            setXY: { x: posX, y: posY, stepX: 200 },
+        });
+        scene.physics.add.collider(scene.platforms, scene.knights);
+        scene.physics.add.collider(scene.player, scene.knights, (player, knight) => hitKnight(scene, player, knight), null, scene);
+        scene.knights.children.iterate(function (knight) {
+            knight.setCollideWorldBounds(true);
+        });
+    }
+}
+
 function createBoss(scene, number, posX, posY, health, image, animation) {
 
     if (number === 1) {
         scene.boss = new Boss_1(scene, posX, posY, health, image, animation);
+    } else if (number === 2) {
+        scene.boss = new Boss_2(scene, posX, posY, health, image, animation);
+    } else if (number === 3) {
+        scene.boss = new Boss_3(scene, posX, posY, health, image, animation);
     }
     scene.boss.setScale(1.75)
     scene.boss.setCollideWorldBounds(true);
     scene.physics.add.collider(scene.platforms, scene.boss);
     scene.physics.add.overlap(scene.player, scene.boss, (player, boss) => hitBoss(scene, player, boss), null, scene);
-
-}
-
-
-function createLevelOne(scene) {
-    // // Platforms
-    scene.platforms = scene.physics.add.staticGroup();
-    scene.platforms.create(200, 568, 'bottomTiles').setScale(2).refreshBody();
-    scene.platforms.create(600, 568, 'bottomTiles').setScale(2).refreshBody();
-
-    // scene.platforms.create(400, 395, 'block').setScale(2).refreshBody();
-    scene.pillars = scene.physics.add.staticGroup({
-        classType: Phaser.GameObjects.Image,
-        key: 'pillar',
-        setXY: { x: 100, y: 235, stepX: 150 },
-        quantity: 5
-    });
-    scene.pillars.children.iterate(function (pillar) {
-        pillar.setScale(1.5);
-    });
 }
 
 
@@ -198,4 +387,3 @@ window.createSkulls = createSkulls;
 window.createSkullAnimations = createSkullAnimations;
 window.createBossOneAnimations = createBossOneAnimations;
 window.createBoss = createBoss;
-window.createLevelOne = createLevelOne;

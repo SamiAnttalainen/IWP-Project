@@ -49,6 +49,7 @@ function gameMovement(scene) {
             scene.player.anims.play('crouchingAttack', true);
             scene.player.body.offset.y = 0;
             scene.player.body.offset.x = 0;
+            setTimeout(() => {}, 1000);
         }
     
     }
@@ -68,9 +69,16 @@ function gameMovement(scene) {
             scene.player.anims.play('jumpingAttack', true);
         }}
 
+        else if (scene.cursors.shift.isDown) {
+            scene.player.guarding = true;
+            scene.player.setVelocityX(0);
+            scene.player.anims.play('guard', true);
+        }
+
     else {
         scene.player.setVelocityX(0);
         scene.player.attacking = false;
+        scene.player.guarding = false;
         if (scene.player.body.touching.down && !scene.cursors.down.isDown) {
             if (scene.player.crouching) {
                 standingUp(scene);
@@ -99,7 +107,7 @@ function hitSkull(scene, player, skull) {
     if (scene.player.attacking) { // If attack animation is on, then the skull is destroyed.
         skull.disableBody(true, true);
     }
-    else // Else scene.player loses health and is pushed back.
+    else if (!scene.player.guarding)// If player is not guarding then player loses health and is pushed back when hit.
     {
         let health;
         health = player.getHealth() - 1;
@@ -158,23 +166,8 @@ function updateHealth(scene) {
     }
 }
 
-function loadNextLevel(scene, level) {
-    scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE',
-        {
-        fontSize: '64px',
-        fill: '#fff',
-        fontFamily: 'ArcadeClassic' 
-    });
-
-    setTimeout(() => {
-        scene.scene.start(level, { playerData: scene.player.getLena() });
-        scene.scene.remove(scene.key);
-    }, 5000);
-}
-
 window.gameMovement = gameMovement;
 window.standingUp = standingUp;
 window.overlapping = overlapping;
 window.hitSkull = hitSkull;
 window.updateHealth = updateHealth;
-window.loadNextLevel = loadNextLevel;

@@ -17,13 +17,14 @@ class Level_1 extends Phaser.Scene {
 
     create() {
         // Creates level 1 level assets
-        createLevelOne(this);
+        this.createLevelOne();
 
         // Creates and Loads player health bar
         createHealthBar(this);
 
         // Player movement this.cursors and ability keys
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.altKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ALT);
 
         // Create player
         createPlayer(this, 100, 470);
@@ -38,8 +39,26 @@ class Level_1 extends Phaser.Scene {
 
         // Checks if player health is 0, then game over
         if (this.player.getHealth() <= 0) {
-            this.scene.start('GameOver');
+            this.this.start('GameOver');
         }
+    }
+
+    createLevelOne() {
+        // // Platforms
+    this.platforms = this.physics.add.staticGroup();
+    this.platforms.create(200, 568, 'bottomTiles').setScale(2).refreshBody();
+    this.platforms.create(600, 568, 'bottomTiles').setScale(2).refreshBody();
+
+    // this.platforms.create(400, 395, 'block').setScale(2).refreshBody();
+    this.pillars = this.physics.add.staticGroup({
+        classType: Phaser.GameObjects.Image,
+        key: 'pillar',
+        setXY: { x: 100, y: 235, stepX: 150 },
+        quantity: 5
+    });
+    this.pillars.children.iterate(function (pillar) {
+        pillar.setScale(1.5);
+    });
     }
 }
 window.Level_1 = Level_1

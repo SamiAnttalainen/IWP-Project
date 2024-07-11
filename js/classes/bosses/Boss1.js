@@ -43,18 +43,21 @@ class Boss_1 extends Enemy {
 
     hitSpear(player, spear) {
         spear.disableBody(true, true);
-        let health = player.getHealth() - 1;
-        player.setHealth(health);
-        updateHealth(this.scene);
-        player.setTint(0xff0000);
-        if (player.flipX) {
-            player.x += 100;
-        } else {
-            player.x -= 100;
+        if (!this.scene.player.guarding) {
+            let health = player.getHealth() - 1;
+            player.setHealth(health);
+            updateHealth(this.scene);
+            player.setTint(0xff0000);
+            if (player.flipX) {
+                player.x += 100;
+            }   else {
+                player.x -= 100;
+            }
+            setTimeout(() => {
+                player.clearTint();
+            }, 1000);
         }
-        setTimeout(() => {
-            player.clearTint();
-        }, 1000);
     }
+        
 }
 window.Boss_1 = Boss_1;

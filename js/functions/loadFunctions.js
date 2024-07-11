@@ -15,6 +15,7 @@ function loadImages(scene) {
     scene.load.image('bottomTiles', 'assets/screenassets/bottomTiles.png');
     scene.load.image('pillar', 'assets/screenassets/pillar.png');
     scene.load.image('night', 'assets/screenassets/night.png');
+    scene.load.image('hell', 'assets/screenassets/hell.png');
 }
 
 function loadBossOneImages(scene) {
@@ -25,6 +26,20 @@ function loadBossOneImages(scene) {
     scene.load.image('bossWeapon', 'assets/bosses/core/boss_1_weapon.png');
 }
 
+function loadNextLevel(scene, level) {
+    scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE',
+        {
+        fontSize: '64px',
+        fill: '#fff',
+        fontFamily: 'ArcadeClassic' 
+    });
+
+    setTimeout(() => {
+        scene.scene.start(level, { playerData: scene.player.getLena() });
+        scene.scene.remove(scene.key);
+    }, 5000);
+}
 
 window.loadImages = loadImages;
 window.loadBossOneImages = loadBossOneImages;
+window.loadNextLevel = loadNextLevel;

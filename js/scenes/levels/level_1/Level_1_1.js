@@ -8,7 +8,7 @@ class Level_1_1 extends Level_1 {
         createAnimations(this);
         createSkullAnimations(this);
         super.create();
-        createSkulls(this, 400, 500, 2);
+        createEnemies(this, 400, 500, 2, 'Skull');
         updateHealth(this);
     }
 }
