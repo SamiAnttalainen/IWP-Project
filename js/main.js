@@ -19,16 +19,16 @@ let config = {
         }
     },
     scene: [
-        MainMenu,
+        // MainMenu,
         // Level_1_1,
         // Level_1_2,
         // Level_1_3,
-        // Level_1_4,
-        GameOver,
-        Options,
-        Info,
-        About,
-        ControlsInfo
+        Level_1_4,
+        // GameOver,
+        // Options,
+        // Info,
+        // About,
+        // ControlsInfo
     ]
 };
 

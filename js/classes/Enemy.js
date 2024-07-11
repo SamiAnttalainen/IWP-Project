@@ -13,7 +13,11 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
     movement() {
         this.enemyTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(2000, 4000),
-            callback: this.enemyMovement,
+            callback: () => {
+                if (this.alive) {
+                    this.enemyMovement();
+                }
+            },
             callbackScope: this,
             loop: true,
         });

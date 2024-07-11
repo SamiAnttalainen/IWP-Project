@@ -1,5 +1,5 @@
 function loadImages(scene) {
-    for (let i = 1; i <= 21; i++) {
+    for (let i = 1; i <= 23; i++) {
         scene.load.image('lena' + i, 'assets/lena/lena_' + i + '.png');
     }
     for (let i = 1; i <= 97; i++) {
@@ -14,6 +14,7 @@ function loadImages(scene) {
     scene.load.image('bottomFloor', 'assets/screenassets/bottomFloor.png');
     scene.load.image('bottomTiles', 'assets/screenassets/bottomTiles.png');
     scene.load.image('pillar', 'assets/screenassets/pillar.png');
+    scene.load.image('night', 'assets/screenassets/night.png');
 }
 
 function loadBossOneImages(scene) {

@@ -1,6 +1,7 @@
 class Level_1 extends Phaser.Scene {
     constructor(key, next, skulls){
         super({ key: key });
+        this.level = 1;
         this.next = next;
         this.skulls = skulls;
     }
