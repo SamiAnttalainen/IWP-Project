@@ -1,9 +1,8 @@
 class Level_1 extends Phaser.Scene {
-    constructor(key, next, skulls){
+    constructor(key, next){
         super({ key: key });
         this.level = 1;
         this.next = next;
-        this.skulls = skulls;
     }
 
     init(data) {
@@ -13,9 +12,21 @@ class Level_1 extends Phaser.Scene {
     preload() {
         // Loads all the image assets
         loadImages(this);
+        loadBossOneImages(this);
     }
 
     create() {
+
+        if (!this.anims.exists('movement')) {
+            createAnimations(this);
+        }
+        if (!this.anims.exists('skullMovement')) {
+            createSkullAnimations(this);
+        }
+        if (!this.anims.exists('boss1Movement')) {
+            createBossOneAnimations(this);
+        }
+
         // Creates level 1 level assets
         this.createLevelOne();
 
@@ -39,7 +50,9 @@ class Level_1 extends Phaser.Scene {
 
         // Checks if player health is 0, then game over
         if (this.player.getHealth() <= 0) {
-            this.this.start('GameOver');
+            this.physics.pause();
+            this.scene.start('GameOver', {levelData: this.level});
+            // loadGameOver(this, this.level);
         }
     }
 

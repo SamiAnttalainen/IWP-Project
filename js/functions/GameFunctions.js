@@ -74,8 +74,7 @@ function gameMovement(scene) {
             scene.player.setVelocityX(0);
             scene.player.anims.play('guard', true);
         }
-
-    else {
+        else {
         scene.player.setVelocityX(0);
         scene.player.attacking = false;
         scene.player.guarding = false;
@@ -103,14 +102,9 @@ function overlapping(scene) {
     scene.player.body.setVelocityY(-75);
 }
 
-function hitSkull(scene, player, skull) {
-    if (scene.player.attacking) { // If attack animation is on, then the skull is destroyed.
-        skull.disableBody(true, true);
-    }
-    else if (!scene.player.guarding)// If player is not guarding then player loses health and is pushed back when hit.
-    {
-        let health;
-        health = player.getHealth() - 1;
+function damage(scene, player, amount) {
+    let health;
+        health = player.getHealth() - amount;
         player.setHealth(health);
         updateHealth(scene);
         player.setTint(0xff0000);
@@ -122,6 +116,56 @@ function hitSkull(scene, player, skull) {
         setTimeout(() => {
             player.clearTint();
         }, 1000);
+}
+
+function hitSkull(scene, player, skull) {
+    if (scene.player.attacking) { // If attack animation is on, then the skull is destroyed.
+        skull.disableBody(true, true);
+    }
+    else if (!scene.player.guarding)// If player is not guarding then player loses health and is pushed back when hit.
+    {
+        damage(scene, player, 1);
+    }
+}
+
+function hitWasp(scene, player, wasp) {
+    if (scene.player.attacking) {
+        wasp.disableBody(true, true);
+    } else if (!scene.player.guarding) {
+        damage(scene, player, 2);
+    }
+}
+
+function hitGolem(scene, player, golem) {
+    if (scene.player.attacking) {
+        golem.health -= 1;
+        if (golem.health <= 0) {
+            golem.disableBody(true, true);
+        }
+    } else if (!scene.player.guarding) {
+        damage(scene, player, 2);
+    }
+}
+
+function hitGhost(scene, player, ghost) {
+    if (scene.player.attacking) {
+        ghost.health -= 1;
+        if (ghost.health <= 0) {
+            ghost.disableBody(true, true);
+        }
+    } else if (!scene.player.guarding) {
+        damage(scene, player, 3);
+    }
+}
+
+function hitKnight(scene, player, knight) {
+    if (scene.player.attacking) {
+        knight.health -= 1;
+        if (knight.health <= 0) {
+            knight.disableBody(true, true);
+        }
+    } else if (!scene.player.guarding) {
+        damage(scene, player, 3);
     }
 }
 
@@ -134,19 +178,7 @@ function hitBoss(scene, player, boss) {
             boss.disableBody(true, true);
         }
     } else {
-        let health;
-        health = player.getHealth() - 1;
-        player.setHealth(health);
-        updateHealth(scene);
-        player.setTint(0xff0000);
-        if (player.flipX) {
-            player.x += 100;
-        } else {
-            player.x -= 100;
-        }
-        setTimeout(() => {
-            player.clearTint();
-        }, 1000);
+        damage(scene, player, 2);
     }
 }
 

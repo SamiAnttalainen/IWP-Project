@@ -26,8 +26,14 @@ function loadBossOneImages(scene) {
     scene.load.image('bossWeapon', 'assets/bosses/core/boss_1_weapon.png');
 }
 
+function loadBossTwoImages(scene) {
+    for (let i=1; i<=12; i++) {
+        scene.load.image('death' + i, 'assets/bosses/death/death (' + i + ').png');
+    }
+}
+
 function loadNextLevel(scene, level) {
-    scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE',
+    scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE!',
         {
         fontSize: '64px',
         fill: '#fff',
@@ -36,10 +42,28 @@ function loadNextLevel(scene, level) {
 
     setTimeout(() => {
         scene.scene.start(level, { playerData: scene.player.getLena() });
-        scene.scene.remove(scene.key);
     }, 5000);
 }
 
+
+function loadNextMap(scene, level) {
+    scene.add.text(50, 150, 'MAP CLEARED.\nPREPARE FOR NEXT MAP!',
+        {
+        fontSize: '64px',
+        fill: '#fff',
+        fontFamily: 'ArcadeClassic' 
+    });
+
+    setTimeout(() => {
+        scene.scene.start(level, { playerData: scene.player.getLena() });
+    }, 5000);
+}
+
+
+
+
 window.loadImages = loadImages;
 window.loadBossOneImages = loadBossOneImages;
+window.loadBossTwoImages = loadBossTwoImages;
 window.loadNextLevel = loadNextLevel;
+window.loadNextMap = loadNextMap;

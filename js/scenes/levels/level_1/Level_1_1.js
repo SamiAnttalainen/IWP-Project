@@ -1,14 +1,14 @@
 // Level one of the game
 class Level_1_1 extends Level_1 {
     constructor() {
-        super('Level_1_1', 'Level_1_2', 2);
+        super('Level_1_1', 'Level_1_2');
     }
 
     create() {
-        createAnimations(this);
-        createSkullAnimations(this);
+
         super.create();
         createEnemies(this, 400, 500, 2, 'Skull');
+        this.player.setHealth(10);
         updateHealth(this);
     }
 }

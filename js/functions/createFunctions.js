@@ -75,6 +75,20 @@ function createAnimations(scene) {
     });
 
     scene.anims.create({
+        key: 'victory',
+        frames: [
+            {key: 'lena22'}
+        ]
+    });
+
+    scene.anims.create({
+        key: 'death',
+        frames: [
+            {key: 'lena23'}
+        ]
+    });
+
+    scene.anims.create({
         key: 'standingAttack',
         frames: [
             { key: 'lena21' },
@@ -285,19 +299,6 @@ function createPlayer(scene, posX, posY) {
     scene.physics.add.overlap(scene.player, scene.platforms, () => overlapping(scene), null, scene);
 }
 
-function createSkulls(scene, posX, posY, amount) {
-    scene.skulls = scene.physics.add.group({
-        classType: Skull,
-        key: 'enemy1',
-        quantity: amount,
-        setXY: { x: posX, y: posY, stepX: 200 },
-    });
-    scene.physics.add.collider(scene.platforms, scene.skulls);
-    scene.physics.add.collider(scene.player, scene.skulls, (player, skull) => hitSkull(scene, player, skull), null, scene);
-    scene.skulls.children.iterate(function (skull) {
-        skull.setCollideWorldBounds(true);
-    });
-}
 
 function createEnemies(scene, posX, posY, amount, type) {
 
@@ -324,6 +325,7 @@ function createEnemies(scene, posX, posY, amount, type) {
         scene.physics.add.collider(scene.player, scene.wasps, (player, wasp) => hitWasp(scene, player, wasp), null, scene);
         scene.wasps.children.iterate(function (wasp) {
             wasp.setCollideWorldBounds(true);
+            wasp.body.setAllowGravity(false);
         });
     } else if (type === 'Golem') {
         scene.golems = scene.physics.add.group({
@@ -383,7 +385,13 @@ function createBoss(scene, number, posX, posY, health, image, animation) {
 window.createHealthBar = createHealthBar;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
-window.createSkulls = createSkulls;
+window.createEnemies = createEnemies;
 window.createSkullAnimations = createSkullAnimations;
+window.createWaspAnimations = createWaspAnimations;
+window.createGolemAnimations = createGolemAnimations;
+window.createGhostAnimations = createGhostAnimations;
+window.createKnightAnimations = createKnightAnimations;
 window.createBossOneAnimations = createBossOneAnimations;
+window.createBossTwoAnimations = createBossTwoAnimations;
+window.createBossThreeAnimations = createBossThreeAnimations;
 window.createBoss = createBoss;

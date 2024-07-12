@@ -1,10 +1,8 @@
 class Level_2 extends Phaser.Scene {
-    constructor(key, next, wasps, golems){
+    constructor(key, next){
         super({ key: key });
         this.level = 2;
         this.next = next;
-        this.wasps = wasps;
-        this.golems = golems;
     }
 
     init(data) {
@@ -14,9 +12,24 @@ class Level_2 extends Phaser.Scene {
     preload() {
         // Loads all the image assets
         loadImages(this);
+        loadBossTwoImages(this);
     }
 
     create() {
+
+        if (!this.anims.exists('movement')) {
+            createAnimations(this);
+        }
+        if (!this.anims.exists('waspMovement')) {
+            createWaspAnimations(this);
+        } 
+        if (!this.anims.exists('golemMovement')) {
+            createGolemAnimations(this);
+        }
+        if (!this.anims.exists('boss2Movement')) {
+            createBossTwoAnimations(this);
+        }
+
         // Creates level 1 level assets
         this.createLevelTwo();
 
@@ -33,18 +46,18 @@ class Level_2 extends Phaser.Scene {
     update() {
         gameMovement(this);
 
-        if (this.wasps.countActive(true) === 0 && this.golems.countActive(true) === 0){
-            loadNextLevel(this, this.next);
-        }
-
         // Checks if player health is 0, then game over
         if (this.player.getHealth() <= 0) {
-            this.scene.start('GameOver');
+            this.scene.start('GameOver', {levelData: this.level});
         }
     }
 
     createLevelTwo() {
+        // Creates background for level 2.
         this.background = this.add.image(400, 300, 'night');
+        this.platforms = this.physics.add.staticGroup();
+        this.platforms.create(200, 568, 'bottomTiles').setScale(2).refreshBody();
+        this.platforms.create(600, 568, 'bottomTiles').setScale(2).refreshBody();
     }
 
 }
