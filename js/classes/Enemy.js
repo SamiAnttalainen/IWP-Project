@@ -1,12 +1,13 @@
 // Enemy classes inspired by SUPERTOMMY https://www.youtube.com/watch?v=IFt_YwDVFNY 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
 
-    constructor(scene, x, y, health, image, animation) {
+    constructor(scene, x, y, health, attack,  image, animation) {
         super(scene, x, y, image);
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
         this.anims.play(animation, true);
         this.health = health;
+        this.attack = attack;
         this.alive = true;
         this.movement();
     }

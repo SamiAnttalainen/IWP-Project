@@ -48,11 +48,10 @@ class Level_1 extends Phaser.Scene {
             loadNextLevel(this, this.next);
         }
 
-        // Checks if player health is 0, then game over
+        // If players dies, then laods GameOver scene.
         if (this.player.getHealth() <= 0) {
             this.physics.pause();
             this.scene.start('GameOver', {levelData: this.level});
-            // loadGameOver(this, this.level);
         }
     }
 

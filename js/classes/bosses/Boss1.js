@@ -1,7 +1,7 @@
 class Boss_1 extends Enemy {
 
-    constructor(scene, x, y, health) {
-        super(scene, x, y, health, 'boss1', 'boss1Movement');
+    constructor(scene, x, y, health, attack) {
+        super(scene, x, y, health, attack, 'boss1', 'boss1Movement');
         this.scene = scene;
         this.throw();
         this.spear = scene.physics.add.group();
@@ -24,7 +24,6 @@ class Boss_1 extends Enemy {
     bossThrow() {
         this.setVelocityX(0);
         this.anims.play('bossThrow', true);
-        this.attacking = true;
         let weapon = this.spear.create(this.x, this.y, 'bossWeapon').setScale(0.5);
         weapon.setScale(1.5);
         weapon.body.setAllowGravity(false);
@@ -37,25 +36,13 @@ class Boss_1 extends Enemy {
         }
         setTimeout(() => {
             this.anims.play('boss1Movement', true);
-            this.attacking = false;
         }, 1000);
     }
 
     hitSpear(player, spear) {
         spear.disableBody(true, true);
         if (!this.scene.player.guarding) {
-            let health = player.getHealth() - 1;
-            player.setHealth(health);
-            updateHealth(this.scene);
-            player.setTint(0xff0000);
-            if (player.flipX) {
-                player.x += 100;
-            }   else {
-                player.x -= 100;
-            }
-            setTimeout(() => {
-                player.clearTint();
-            }, 1000);
+            damage(this.scene, player, this.attack)
         }
     }
         

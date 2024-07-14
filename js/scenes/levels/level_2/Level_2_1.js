@@ -18,7 +18,6 @@ class Level_2_1 extends Level_2 {
         super.update();
 
         if (this.wasps.countActive(true) === 0 && this.loaded) {
-            // console.log('All enemies dead');
             loadNextLevel(this, this.next);
         }
     }

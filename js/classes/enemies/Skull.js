@@ -1,9 +1,8 @@
 // Skull enemy class
 class Skull extends Enemy {
 
-    constructor(scene, x, y, health, image, animation) {
-        super(scene, x, y, 5, 'enemy1', 'skullMovement');
-        this.movement();
+    constructor(scene, x, y) {
+        super(scene, x, y, 5, 1, 'enemy1', 'skullMovement');
     }
 }
 window.Skull = Skull;

@@ -235,7 +235,7 @@ function createBossTwoAnimations(scene) {
     });
 
     scene.anims.create({
-        key: 'bossAttack',
+        key: 'boss2Attack',
         frames: [
             { key: 'death4' },
             { key: 'death5' },
@@ -246,7 +246,7 @@ function createBossTwoAnimations(scene) {
     });
 
     scene.anims.create({
-        key: 'bossProjectile',
+        key: 'boss2Projectile',
         frames: [
             { key: 'death10' },
             { key: 'death11' },
@@ -366,14 +366,14 @@ function createEnemies(scene, posX, posY, amount, type) {
     }
 }
 
-function createBoss(scene, number, posX, posY, health, image, animation) {
+function createBoss(scene, number, posX, posY, health, attack) {
 
     if (number === 1) {
-        scene.boss = new Boss_1(scene, posX, posY, health, image, animation);
+        scene.boss = new Boss_1(scene, posX, posY, health, attack);
     } else if (number === 2) {
-        scene.boss = new Boss_2(scene, posX, posY, health, image, animation);
+        scene.boss = new Boss_2(scene, posX, posY, health, attack);
     } else if (number === 3) {
-        scene.boss = new Boss_3(scene, posX, posY, health, image, animation);
+        scene.boss = new Boss_3(scene, posX, posY, health, attack);
     }
     scene.boss.setScale(1.75)
     scene.boss.setCollideWorldBounds(true);

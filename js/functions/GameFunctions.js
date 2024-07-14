@@ -1,35 +1,37 @@
 function gameMovement(scene) {
-    if (scene.cursors.left.isDown) {
+    if (scene.cursors.left.isDown) { // Move left
         if (scene.player.crouching) {
             standingUp(scene);
         }
         scene.player.setVelocityX(-160);
         if (scene.player.body.touching.down) {
             scene.player.anims.play('movement', true);
-        } else if (!scene.player.body.touching.down && scene.input.mousePointer.leftButtonDown()) {
+        } else if (!scene.player.body.touching.down && scene.input.mousePointer.leftButtonDown()) 
+            {
             scene.player.attacking = true;
             scene.player.anims.play('jumpingAttack', true);
         }
         scene.player.flipX = true;
-    } else if (scene.cursors.right.isDown) {
+    } else if (scene.cursors.right.isDown) { // Move right
         if (scene.player.crouching) {
             standingUp(scene);
         }
         scene.player.setVelocityX(160);
         if (scene.player.body.touching.down) {
             scene.player.anims.play('movement', true);
-        } else if (!scene.player.body.touching.down && scene.input.mousePointer.leftButtonDown()) {
+        } else if (!scene.player.body.touching.down && scene.input.mousePointer.leftButtonDown()) 
+            {
             scene.player.attacking = true;
             scene.player.anims.play('jumpingAttack', true);
         }
         scene.player.flipX = false;
-    } else if (scene.cursors.up.isDown) {
+    } else if (scene.cursors.up.isDown) { // Jump
 
         if (scene.player.body.touching.down) {
             if (scene.player.crouching) {
                 standingUp(scene);
             }
-            scene.player.setVelocityY(-330); // Jump
+            scene.player.setVelocityY(-330);
             scene.player.anims.play('jump', true);
         } else if (!scene.player.body.touching.down && scene.input.mousePointer.leftButtonDown()) {
             scene.player.attacking = true;
@@ -37,11 +39,11 @@ function gameMovement(scene) {
         }
         
     } else if (scene.cursors.down.isDown && scene.player.body.touching.down) {
-        if (!scene.player.crouching) {
+        if (!scene.player.crouching) { // Crouch
             scene.player.crouching = true;
             scene.player.anims.play('crouch', true);
             scene.player.body.setSize(81, 86, true);
-            scene.player.body.y += 20;
+            scene.player.body.y += 20; // Makes crouching more smooth
         }
         scene.player.anims.play('crouch', true);
         if (scene.input.mousePointer.leftButtonDown()) { 
@@ -49,7 +51,6 @@ function gameMovement(scene) {
             scene.player.anims.play('crouchingAttack', true);
             scene.player.body.offset.y = 0;
             scene.player.body.offset.x = 0;
-            setTimeout(() => {}, 1000);
         }
     
     }
@@ -97,25 +98,39 @@ function standingUp(scene) {
     scene.player.body.y -= 20;
     }
 
-// Function prevents player from falling through the platform when player is attacking.
+// Function prevents player from falling through the platform when hit box changes during the animation
 function overlapping(scene) {
     scene.player.body.setVelocityY(-75);
 }
 
 function damage(scene, player, amount) {
-    let health;
-        health = player.getHealth() - amount;
-        player.setHealth(health);
-        updateHealth(scene);
-        player.setTint(0xff0000);
-        if (player.flipX) {
-            player.x += 100;
-        } else {
-            player.x -= 100;
-        }
-        setTimeout(() => {
-            player.clearTint();
-        }, 1000);
+    let health = player.getHealth() - amount;
+    player.setHealth(health);
+    updateHealth(scene);
+    player.setTint(0xff0000);
+    if (player.flipX) {
+        player.x += 100;
+    } else {
+        player.x -= 100;
+    }
+    setTimeout(() => {
+        player.clearTint();
+    }, 1000);
+}
+
+// Function calculates the projectile velocity direction and angle.
+function direction(scene, weapon, x, y) {
+    const velocity = 100;
+    let dx = scene.player.x - x;
+    let dy = scene.player.y - y;
+    let len = Math.sqrt(dx**2 + dy**2);
+    dx = dx / len;
+    dy = dy / len;
+    let angle = Math.atan2(dy, dx);
+    angle = angle * (DEGREE / Math.PI);
+    weapon.setVelocityX(dx * velocity);
+    weapon.setVelocityY(dy * velocity);
+    weapon.setAngle(angle + DEGREE);
 }
 
 function hitSkull(scene, player, skull) {
@@ -124,7 +139,7 @@ function hitSkull(scene, player, skull) {
     }
     else if (!scene.player.guarding)// If player is not guarding then player loses health and is pushed back when hit.
     {
-        damage(scene, player, 1);
+        damage(scene, player, skull.attack);
     }
 }
 
@@ -132,7 +147,7 @@ function hitWasp(scene, player, wasp) {
     if (scene.player.attacking) {
         wasp.disableBody(true, true);
     } else if (!scene.player.guarding) {
-        damage(scene, player, 2);
+        damage(scene, player, wasp.attack);
     }
 }
 
@@ -143,7 +158,7 @@ function hitGolem(scene, player, golem) {
             golem.disableBody(true, true);
         }
     } else if (!scene.player.guarding) {
-        damage(scene, player, 2);
+        damage(scene, player, golem.attack);
     }
 }
 
@@ -154,7 +169,7 @@ function hitGhost(scene, player, ghost) {
             ghost.disableBody(true, true);
         }
     } else if (!scene.player.guarding) {
-        damage(scene, player, 3);
+        damage(scene, player, ghost.attack);
     }
 }
 
@@ -165,7 +180,7 @@ function hitKnight(scene, player, knight) {
             knight.disableBody(true, true);
         }
     } else if (!scene.player.guarding) {
-        damage(scene, player, 3);
+        damage(scene, player, knight.attack);
     }
 }
 
@@ -178,17 +193,14 @@ function hitBoss(scene, player, boss) {
             boss.disableBody(true, true);
         }
     } else {
-        damage(scene, player, 2);
+        damage(scene, player, boss.attack);
     }
 }
-
 
 // Updates the player's health bar icons when player takes damage.
 function updateHealth(scene) {
     const health = scene.player.getHealth();
     const maxHealth = scene.player.getMaxHealth();
-    // console.log(health);
-    // console.log(maxHealth);
     for (let i = 0; i < maxHealth; i++) {
         if (i < health) {
             scene.hearts.getChildren()[i].setTexture('heartFull');
@@ -201,5 +213,7 @@ function updateHealth(scene) {
 window.gameMovement = gameMovement;
 window.standingUp = standingUp;
 window.overlapping = overlapping;
+window.damage = damage;
+window.direction = direction;
 window.hitSkull = hitSkull;
 window.updateHealth = updateHealth;

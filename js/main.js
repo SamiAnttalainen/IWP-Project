@@ -3,6 +3,7 @@ const HEIGTH = 600;
 const LEFT = 0;
 const RIGHT = 1;
 const IDLE = 2;
+const DEGREE = 180;
 
 
 let config = {
@@ -24,9 +25,9 @@ let config = {
         // Level_1_2,
         // Level_1_3,
         // Level_1_4,
-        Level_2_1,
-        Level_2_2,
-        Level_2_3,
+        // Level_2_1,
+        // Level_2_2,
+        // Level_2_3,
         Level_2_4,
         GameOver,
         Options,
