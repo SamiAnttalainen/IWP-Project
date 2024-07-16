@@ -16,6 +16,13 @@ class Level_2_3 extends Level_2 {
         if (this.golems.countActive(true) === 0 && this.wasps.countActive(true) === 0) {
             loadNextLevel(this, this.next);
         }
+
+        this.wasps.children.iterate(function (wasp) {
+            if (wasp.y < 400 || wasp.y > 400) {
+                wasp.y = 400;
+                wasp.body.setVelocityY(0);
+            }
+        });
     }
 }
 window.Level_2_3 = Level_2_3;
