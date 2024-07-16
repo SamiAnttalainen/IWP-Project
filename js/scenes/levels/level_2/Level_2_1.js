@@ -20,6 +20,12 @@ class Level_2_1 extends Level_2 {
         if (this.wasps.countActive(true) === 0 && this.loaded) {
             loadNextLevel(this, this.next);
         }
-    }
+
+        this.wasps.children.iterate(function (wasp) { // Prevents wasp from getting pushed to the top of the screen
+            if (wasp.y < 400 || wasp.y > 400) {
+                wasp.y = 400;
+                wasp.body.setVelocityY(0);}
+            });
+        }
 }
 window.Level_2_1 = Level_2_1;

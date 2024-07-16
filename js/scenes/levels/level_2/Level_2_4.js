@@ -5,7 +5,7 @@ class Level_2_4 extends Level_2 {
 
     create() {
         super.create();
-        createBoss(this, 2, 700, 300, 100, 2);
+        createBoss(this, 2, 700, 300, 250, 2);
         updateHealth(this);
     }
 

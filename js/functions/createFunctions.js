@@ -173,6 +173,15 @@ function createGhostAnimations(scene) {
         frameRate: 3,
         repeat: -1,
     });
+
+    scene.anims.create({
+        key: 'ghostBolt',
+        frames: [
+            { key: 'projectile_2'},
+            { key: 'projectile_3'},],
+        frameRate: 10,
+        repeat: -1,
+    });
 }
 
 function createKnightAnimations(scene) {
@@ -197,6 +206,13 @@ function createKnightAnimations(scene) {
                 { key: 'enemy13' },
             ],
             frameRate: 3,
+        });
+
+        scene.anims.create({
+            key: 'knightProjectile',
+            frames: [
+                { key: 'enemy14' },
+            ],
         });
 }
 
@@ -253,6 +269,16 @@ function createBossTwoAnimations(scene) {
             { key: 'death12' },
         ],
     });
+
+    scene.anims.create({
+        key: 'boss2Burst',
+        frames: [
+            { key: 'projectile_10' },
+            { key: 'projectile_11' },
+        ],
+        frameRate: 10,
+        repeat: -1,
+    })
 }
 
 function createBossThreeAnimations(scene) {
@@ -260,12 +286,14 @@ function createBossThreeAnimations(scene) {
     scene.anims.create({
         key: 'boss3Movement',
         frames: [
-            { key: 'gallagher1' },
+            // { key: 'gallagher1' },
             { key: 'gallagher2' },
             { key: 'gallagher3' },
             { key: 'gallagher4' },
             { key: 'gallagher5' },
         ],
+        frameRate: 3,
+        repeat: -1,
     });
 
     scene.anims.create({
@@ -273,21 +301,29 @@ function createBossThreeAnimations(scene) {
         frames: [
             { key: 'gallagher6' },
             { key: 'gallagher7' },
-        ]
+        ],
+        frameRate: 3,
     });
 
     scene.anims.create({
-        key: 'boss3Projectile_1',
+        key: 'boss3Projectile',
         frames: [
-            { key: 'ball1' },
-        ]    
+            { key: 'ball_1' },
+            {key: 'ball_2'},
+        ],
+        frameRate: 10,
+        repeat: -1,    
     });
 
     scene.anims.create({
-        key: 'boss3Projectile_2',
+        key: 'boss3Burst',
         frames: [
-            { key: 'ball2' },
-        ]
+            { key: 'projectile_7' },
+            {key: 'projectile_8'},
+            {key: 'projectile_9'},
+        ],
+        frameRate: 10,
+        repeat: -1,
     });
 }
 
@@ -350,6 +386,7 @@ function createEnemies(scene, posX, posY, amount, type) {
         scene.physics.add.collider(scene.player, scene.ghosts, (player, ghost) => hitGhost(scene, player, ghost), null, scene);
         scene.ghosts.children.iterate(function (ghost) {
             ghost.setCollideWorldBounds(true);
+            ghost.body.setAllowGravity(false);
         });
     } else if (type === 'Knight') {
         scene.knights = scene.physics.add.group({

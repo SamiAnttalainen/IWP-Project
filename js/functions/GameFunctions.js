@@ -119,7 +119,7 @@ function damage(scene, player, amount) {
 }
 
 // Function calculates the projectile velocity direction and angle.
-function direction(scene, weapon, x, y) {
+function direction(scene, weapon, x, y, degree = 180) {
     const velocity = 100;
     let dx = scene.player.x - x;
     let dy = scene.player.y - y;
@@ -130,7 +130,7 @@ function direction(scene, weapon, x, y) {
     angle = angle * (DEGREE / Math.PI);
     weapon.setVelocityX(dx * velocity);
     weapon.setVelocityY(dy * velocity);
-    weapon.setAngle(angle + DEGREE);
+    weapon.setAngle(angle + degree);
 }
 
 function hitSkull(scene, player, skull) {
@@ -166,6 +166,7 @@ function hitGhost(scene, player, ghost) {
     if (scene.player.attacking) {
         ghost.health -= 1;
         if (ghost.health <= 0) {
+            ghost.alive = false;
             ghost.disableBody(true, true);
         }
     } else if (!scene.player.guarding) {
@@ -177,6 +178,7 @@ function hitKnight(scene, player, knight) {
     if (scene.player.attacking) {
         knight.health -= 1;
         if (knight.health <= 0) {
+            knight.alive = false;
             knight.disableBody(true, true);
         }
     } else if (!scene.player.guarding) {

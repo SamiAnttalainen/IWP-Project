@@ -7,14 +7,17 @@ class Boss_2 extends Enemy {
         this.blast();
         this.nova = scene.physics.add.group();
         this.scene.physics.add.collider(this.nova, scene.player, (player, weapon) => this.hitNova(player, weapon), null, scene);
+        this.burst();
+        this.bursts = scene.physics.add.group();
+        this.scene.physics.add.collider(this.bursts, scene.player, (player, weapon) => this.hitBurst(player, weapon), null, scene);
     }
 
     blast() {
         this.attackTimer = this.scene.time.addEvent({
-            delay: Phaser.Math.Between(2000, 10000),
+            delay: Phaser.Math.Between(3500, 10000),
             callback: () => {
                 if (this.alive) { // Check if the boss is alive before throwing
-                    this.bossThrow();
+                    this.blastNova();
                 }
             },
             callbackScope: this,
@@ -22,7 +25,7 @@ class Boss_2 extends Enemy {
         });
     }
 
-    bossThrow() {
+    blastNova() {
         this.setVelocityX(0);
         this.anims.play('boss2Attack', true);
         let weapon = this.nova.create(this.x, this.y, 'death8').setScale(0.5);
@@ -41,5 +44,41 @@ class Boss_2 extends Enemy {
         }
     }
 
+    burst() {
+        this.attackTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(10000, 15000),
+            callback: () => {
+                if (this.alive) {
+                    this.fireBurst();
+                }
+            },
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    fireBurst() {
+        this.anims.play('boss2Attack', true);
+        let burst = this.bursts.create(this.x, this.y, 'projectile_10').setScale(1.5);
+        burst.body.setAllowGravity(false);
+        if (this.x < this.scene.player.x) {
+            direction(this.scene, burst, this.x, this.y, 0);
+            burst.flipX = false;
+        } else {
+            burst.flipX = true;
+            direction(this.scene, burst, this.x, this.y);
+        }
+        burst.play('boss2Burst');
+        setTimeout(() => {
+            this.anims.play('boss2Movement', true);
+        }, 3000);
+    }
+
+    hitBurst(player, burst) {
+        burst.disableBody(true, true);
+        if (!this.scene.player.guarding) {
+            damage(this.scene, player, this.attack);
+        }
+    }
 }
 window.Boss_2 = Boss_2;
