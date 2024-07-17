@@ -7,12 +7,15 @@ class Level_1 extends Phaser.Scene {
 
     init(data) {
         this.playerData = data.playerData;
+        this.music = data.musicData;
     }
 
     preload() {
         // Loads all the image assets
         loadImages(this);
         loadBossOneImages(this);
+        this.load.audio('vecanti', 'assets/audio/music/Vecanti.mp3');
+        this.load.audio('victory', 'assets/audio/sound/Overcome1.mp3')
     }
 
     create() {
@@ -45,13 +48,13 @@ class Level_1 extends Phaser.Scene {
         gameMovement(this);
 
         if (this.skulls.countActive(true) === 0) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
 
         // If players dies, then laods GameOver scene.
         if (this.player.getHealth() <= 0) {
             this.physics.pause();
-            this.scene.start('GameOver', {levelData: this.level});
+            this.scene.start('GameOver', {levelData: this.level, musicData: this.music});
         }
     }
 

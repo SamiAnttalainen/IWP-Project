@@ -5,10 +5,16 @@ class GameOver extends Screen {
     
     init(data) {
         this.levelData = data.levelData;
+        data.musicData.stop();
+    }
+
+    preload() {
+        this.load.audio('gameover', 'assets/audio/sound/Death.mp3');
     }
 
     create() {
         super.create();
+        this.sound.add('gameover', {volume: 0.25}).play();
         this.add.text(200, 50, 'YOU DIED', { fontSize: '96px', fill: '#f00', fontFamily: 'ArcadeClassic' });
     }
 

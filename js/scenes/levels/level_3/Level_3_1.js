@@ -6,6 +6,10 @@ class Level_3_1 extends Level_3 {
 
     create() {
         super.create();
+        this.music = this.sound.add('divine', { loop: true, volume: 0.25});
+        if (!this.music.isPlaying) {
+            this.music.play();
+        }
         createEnemies(this, 400, 200, 2, 'Ghost');
         updateHealth(this);
         this.loaded = true;
@@ -15,7 +19,7 @@ class Level_3_1 extends Level_3 {
         super.update();
 
         if (this.ghosts.countActive(true) === 0 && this.loaded) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
 
         this.ghosts.children.iterate(function (ghost) { // Prevents ghost from getting pushed to the top of the screen

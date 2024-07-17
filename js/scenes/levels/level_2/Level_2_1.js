@@ -8,6 +8,10 @@ class Level_2_1 extends Level_2 {
     create() {
 
         super.create();
+        this.music = this.sound.add('castle', { loop: true, volume: 0.25});
+        if (!this.music.isPlaying) {
+            this.music.play();
+        }
         createEnemies(this, 200, 400, 3, 'Wasp');
         updateHealth(this);
         this.loaded = true;
@@ -18,7 +22,7 @@ class Level_2_1 extends Level_2 {
         super.update();
 
         if (this.wasps.countActive(true) === 0 && this.loaded) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
 
         this.wasps.children.iterate(function (wasp) { // Prevents wasp from getting pushed to the top of the screen

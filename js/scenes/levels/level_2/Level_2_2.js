@@ -14,7 +14,7 @@ class Level_2_2 extends Level_2 {
         super.update();
 
         if (this.golems.countActive(true) === 0) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
     }
 }

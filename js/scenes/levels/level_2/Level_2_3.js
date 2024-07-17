@@ -15,7 +15,7 @@ class Level_2_3 extends Level_2 {
         super.update();
 
         if (this.golems.countActive(true) === 0 && this.wasps.countActive(true) === 0) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
 
         this.wasps.children.iterate(function (wasp) {
