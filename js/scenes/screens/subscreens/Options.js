@@ -14,6 +14,16 @@ class Options extends Screen {
                 game.sound.mute = false;
             }
 
+        // } else if (this.selectedItemIndex === 1) {
+        //     let soundOption = this.optionTexts[1].text;
+        //     if (soundOption === 'SOUND  ON') {
+        //         this.optionTexts[1].text = 'SOUND  OFF';
+        //         game.sound.mute = true;
+        //     } else {
+        //         this.optionTexts[1].text = 'SOUND  ON';
+        //         game.sound.mute = false
+        //     }
+
         } else if (this.selectedItemIndex === 1) {
             this.scene.start('MainMenu');
         
