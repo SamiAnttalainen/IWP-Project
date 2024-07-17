@@ -11,13 +11,16 @@ class Boss_2 extends Enemy {
         this.bursts = scene.physics.add.group();
         this.scene.physics.add.collider(this.bursts, scene.player, (player, weapon) => this.hitBurst(player, weapon), null, scene);
         this.bursting = false;
+        this.flames = scene.physics.add.group();
+        this.scene.physics.add.collider(this.flames, scene.player, (player, weapon) => this.hitFlames(player, weapon), null, scene);
+        this.spawnFlames();
     }
 
     blast() {
         this.attackTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(3500, 10000),
             callback: () => {
-                if (this.alive && !this.bursting) { // Check if the boss is alive before throwing
+                if (this.alive && !this.bursting) {
                     this.blastNova();
                 }
             },
@@ -83,5 +86,35 @@ class Boss_2 extends Enemy {
             damage(this.scene, player, this.attack);
         }
     }
+
+
+    spawnFlames() {
+        this.flameTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(4000, 8000),
+            callback: () => {
+                if (this.alive && this.health < 150) {
+                    this.fireFlames();
+                }
+            },
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    fireFlames() {
+        let flame = this.flames.create(Phaser.Math.Between(50, 750), 0, 'projectile_21').setScale(1.25);
+        flame.body.setAllowGravity(false);
+        flame.setVelocityY(100);
+        flame.play('boss2Flame');
+        flame.setAngle(90);
+    }
+
+    hitFlames(player, flame) {
+        flame.disableBody(true, true);
+        if (!this.scene.player.guarding) {
+            damage(this.scene, player, this.attack);
+        }
+    }
+
 }
 window.Boss_2 = Boss_2;

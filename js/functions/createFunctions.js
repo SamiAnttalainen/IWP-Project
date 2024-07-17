@@ -279,6 +279,16 @@ function createBossTwoAnimations(scene) {
         frameRate: 10,
         repeat: -1,
     })
+
+    scene.anims.create({
+        key: 'boss2Flame',
+        frames: [
+            { key: 'projectile_21' },
+            { key: 'projectile_22' },
+        ],
+        frameRate: 10,
+        repeat: -1,
+    });
 }
 
 function createBossThreeAnimations(scene) {
@@ -325,6 +335,18 @@ function createBossThreeAnimations(scene) {
         frameRate: 10,
         repeat: -1,
     });
+    
+    scene.anims.create({
+        key: 'boss3Pyro',
+        frames: [
+            { key: 'projectile_18' },
+            {key: 'projectile_19'},
+            {key: 'projectile_20'},
+        ],
+        frameRate: 10,
+        repeat: -1,
+    });
+    
 }
 
 function createPlayer(scene, posX, posY) {

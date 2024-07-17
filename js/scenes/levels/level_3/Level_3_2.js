@@ -7,6 +7,7 @@ class Level_3_2 extends Level_3 {
     create() {
         super.create();
         createEnemies(this, 400, 470, 2, 'Knight');
+        this.player.setHealth(this.playerData.health);
         updateHealth(this);
         this.loaded = true;
     }

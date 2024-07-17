@@ -23,7 +23,7 @@ class Level_3 extends Phaser.Scene {
         if (!this.anims.exists('ghostMovement')) {
             createGhostAnimations(this);
         }
-        if (!this.anims.exists('knigthMovement')) {
+        if (!this.anims.exists('knightMovement')) {
             createKnightAnimations(this);
         }
         if (!this.anims.exists('boss3Movement')) {

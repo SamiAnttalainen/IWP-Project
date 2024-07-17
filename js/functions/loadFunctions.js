@@ -71,6 +71,19 @@ function loadNextMap(scene, level) {
     }, 5000);
 }
 
+function loadEnding(scene, level) {
+    scene.add.text(50, 150, 'MAP CLEARED!\nYOU BEAT THE GAME!',
+        {
+        fontSize: '64px',
+        fill: '#fff',
+        fontFamily: 'ArcadeClassic' 
+    });
+
+    setTimeout(() => {
+        scene.scene.start(level);
+    }, 5000);
+}
+
 
 
 
@@ -80,3 +93,4 @@ window.loadBossTwoImages = loadBossTwoImages;
 window.loadBossThreeImages = loadBossThreeImages;
 window.loadNextLevel = loadNextLevel;
 window.loadNextMap = loadNextMap;
+window.loadEnding = loadEnding;

@@ -8,6 +8,9 @@ class Boss_3 extends Enemy {
         this.bursts = scene.physics.add.group();
         this.scene.physics.add.collider(this.bursts, scene.player, (player, weapon) => this.hitBurst(player, weapon), null, scene);
         this.blast();
+        this.pyroBlasts = scene.physics.add.group();
+        this.scene.physics.add.collider(this.pyroBlasts, scene.player, (player, weapon) => this.hitPyroBlast(player, weapon), null, scene);
+        this.pyro();
     }
 
     shoot() {
@@ -76,6 +79,34 @@ class Boss_3 extends Enemy {
     hitBurst(player, burst) {
         burst.disableBody(true, true);
         damage(this.scene, player, this.attack);
+    }
+
+    pyro() {
+        this.attackTimer = this.scene.time.addEvent({
+            delay: Phaser.Math.Between(10000, 15000),
+            callback: () => {
+                if (this.alive && this.health < 175) {
+                    this.firePyro();
+                }
+            },
+            callbackScope: this,
+            loop: true,
+        });
+    }
+
+    firePyro() {
+        let pyro = this.pyroBlasts.create(Phaser.Math.Between(0, 800), 0, 'projectile_18').setScale(1.5);
+        pyro.body.setAllowGravity(false);
+        pyro.play('boss3Pyro');
+        pyro.setVelocityY(100);
+        pyro.setAngle(90);
+    }
+
+    hitPyroBlast(player, pyro) {
+        pyro.disableBody(true, true);
+        if (!this.scene.player.guarding) {
+            damage(this.scene, player, this.attack);
+        }
     }
 }
 window.Boss_3 = Boss_3;

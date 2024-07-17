@@ -57,7 +57,7 @@ class Boss_1 extends Enemy {
     }
 
     dropBomb() {
-        let bomb = this.bombs.create(Phaser.Math.Between(0, 800), 0, 'bomb').setScale(1);
+        let bomb = this.bombs.create(Phaser.Math.Between(0, 800), 0, 'bomb').setScale(2);
         bomb.setBounce(1);
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);

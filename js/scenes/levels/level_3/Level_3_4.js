@@ -1,6 +1,6 @@
 class Level_3_4 extends Level_3 {
     constructor() {
-        super('Level_3_4', 'Level_3_4');
+        super('Level_3_4', 'Ending');
         this.loaded = false;
     }
 
@@ -15,7 +15,7 @@ class Level_3_4 extends Level_3 {
         super.update();
 
         if (this.boss.health <= 0 && this.loaded) {
-            loadNextMap(this, this.next);
+            loadEnding(this, this.next);
         }
     }
 }
