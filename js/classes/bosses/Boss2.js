@@ -10,14 +10,13 @@ class Boss_2 extends Enemy {
         this.burst();
         this.bursts = scene.physics.add.group();
         this.scene.physics.add.collider(this.bursts, scene.player, (player, weapon) => this.hitBurst(player, weapon), null, scene);
-        this.bursting = false;
     }
 
     blast() {
         this.attackTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(3500, 10000),
             callback: () => {
-                if (this.alive && !this.bursting) { // Check if the boss is alive before throwing
+                if (this.alive) { // Check if the boss is alive before throwing
                     this.blastNova();
                 }
             },
@@ -46,7 +45,7 @@ class Boss_2 extends Enemy {
     }
 
     burst() {
-        this.burstTimer = this.scene.time.addEvent({
+        this.attackTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(10000, 15000),
             callback: () => {
                 if (this.alive) {
@@ -59,7 +58,6 @@ class Boss_2 extends Enemy {
     }
 
     fireBurst() {
-        this.bursting = true;
         this.anims.play('boss2Attack', true);
         let burst = this.bursts.create(this.x, this.y, 'projectile_10').setScale(1.5);
         burst.body.setAllowGravity(false);
@@ -73,7 +71,6 @@ class Boss_2 extends Enemy {
         burst.play('boss2Burst');
         setTimeout(() => {
             this.anims.play('boss2Movement', true);
-            this.bursting = false;
         }, 3000);
     }
 
