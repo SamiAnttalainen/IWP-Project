@@ -2,7 +2,6 @@ class About extends Phaser.Scene {
 
     constructor() {
         super({ key: 'About' });
-        this.selectedItemIndex = 0;
     }
 
     create() {
@@ -15,7 +14,7 @@ class About extends Phaser.Scene {
         });
         this.add.text(10, 250,
             "This game is a course project and it is only for\neducational purposes and not for commercial use." +
-            "\nThis game uses music from various SNES games and\nsome assets from SNES Super Valis IV.",
+            "\nThis game uses music from SNES Street Fighter II,\nCastlevania: Dracula X and Super Valis IV games and\nsome assets from SNES Super Valis IV.",
             {
             fontSize: '32px',
             fill: '#fff',

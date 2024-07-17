@@ -9,7 +9,6 @@ function loadImages(scene) {
         scene.load.image('projectile_' + i, 'assets/projectiles/projectile (' + i + ').png');
     }
 
-    scene.load.spritesheet('lena', 'assets/lenaMovementSpriteSheet.png', { frameWidth: 80, frameHeight: 120 });
     scene.load.image('platform', 'assets/screenassets/platform.png');
     scene.load.image('block', 'assets/screenassets/block.png');
     scene.load.image('bomb', 'assets/screenassets/bomb.png');
@@ -44,34 +43,39 @@ function loadBossThreeImages(scene) {
     scene.load.image('ball_2', 'assets/bosses/gallagher/ball (2).png');
 }
 
-function loadNextLevel(scene, level) {
+function loadNextLevel(scene, level, music) {
     scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE!',
         {
         fontSize: '64px',
         fill: '#fff',
         fontFamily: 'ArcadeClassic' 
     });
-
-    setTimeout(() => {
-        scene.scene.start(level, { playerData: scene.player.getLena() });
-    }, 5000);
+    scene.time.delayedCall(5000, () => {
+        scene.scene.start(level, { playerData: scene.player.getLena(), musicData: music});
+    }, [], scene);
+    
 }
 
 
-function loadNextMap(scene, level) {
+function loadNextMap(scene, level, music) {
+    music.stop();
+    scene.victory = scene.sound.add('victory', {volume: 0.25});
+    scene.victory.play();
     scene.add.text(50, 150, 'MAP CLEARED.\nPREPARE FOR NEXT MAP!',
         {
         fontSize: '64px',
         fill: '#fff',
         fontFamily: 'ArcadeClassic' 
     });
-
-    setTimeout(() => {
+    scene.time.delayedCall(5000, () => {
         scene.scene.start(level, { playerData: scene.player.getLena() });
-    }, 5000);
+    }, [], scene);
 }
 
-function loadEnding(scene, level) {
+function loadEnding(scene, music) {
+    music.stop();
+    scene.victory = scene.sound.add('victory', {volume: 0.25});
+    scene.victory.play();
     scene.add.text(50, 150, 'MAP CLEARED!\nYOU BEAT THE GAME!',
         {
         fontSize: '64px',
@@ -79,9 +83,9 @@ function loadEnding(scene, level) {
         fontFamily: 'ArcadeClassic' 
     });
 
-    setTimeout(() => {
-        scene.scene.start(level);
-    }, 5000);
+    scene.time.delayedCall(5000, () => {
+        scene.scene.start('Ending');
+    }, [], scene);
 }
 
 

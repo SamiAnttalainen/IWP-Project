@@ -7,12 +7,15 @@ class Level_3 extends Phaser.Scene {
 
     init(data) {
         this.playerData = data.playerData;
+        this.music = data.musicData;
     }
 
     preload() {
         // Loads all the image assets
         loadImages(this);
         loadBossThreeImages(this);
+        this.load.audio('victory', 'assets/audio/sound/Overcome1.mp3')
+        this.load.audio('divine', 'assets/audio/music/Divine_Bloodlines.mp3');
     }
 
     create() {
@@ -48,7 +51,7 @@ class Level_3 extends Phaser.Scene {
 
         // Checks if player health is 0, then game over
         if (this.player.getHealth() <= 0) {
-            this.scene.start('GameOver', { levelData: this.level });
+            this.scene.start('GameOver', { levelData: this.level , musicData: this.music});
         }
     }
 

@@ -16,7 +16,7 @@ class Level_3_2 extends Level_3 {
         super.update();
 
         if (this.knights.countActive(true) === 0 && this.loaded) {
-            loadNextLevel(this, this.next);
+            loadNextLevel(this, this.next, this.music);
         }
     }
 }
