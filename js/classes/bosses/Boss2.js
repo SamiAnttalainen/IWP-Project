@@ -72,8 +72,8 @@ class Boss_2 extends Enemy {
         }
         burst.play('boss2Burst');
         setTimeout(() => {
-            this.anims.play('boss2Movement', true);
             this.bursting = false;
+            this.anims.play('boss2Movement', true);
         }, 3000);
     }
 
