@@ -118,7 +118,7 @@ function damage(scene, player, amount) {
     }, 1000);
 }
 
-// Function calculates the projectile velocity direction and angle.
+// Function calculates the projectile direction and angle.
 function direction(scene, weapon, x, y, degree = 180) {
     const velocity = 100;
     let dx = scene.player.x - x;
@@ -133,57 +133,37 @@ function direction(scene, weapon, x, y, degree = 180) {
     weapon.setAngle(angle + degree);
 }
 
-function hitSkull(scene, player, skull) {
-    if (scene.player.attacking) { // If attack animation is on, then the skull is destroyed.
-        skull.disableBody(true, true);
+function collectHeart(scene, player, heart) {
+    heart.disableBody(true, true);
+    if (player.getHealth() < player.getMaxHealth()) {
+        let health = player.getHealth() + 1;
+        player.setHealth(health);
+        updateHealth(scene);
     }
-    else if (!scene.player.guarding)// If player is not guarding then player loses health and is pushed back when hit.
-    {
-        damage(scene, player, skull.attack);
+}
+ 
+function spawnHealth(scene, x, y, rate) {
+    let num = Phaser.Math.Between(0, rate);
+    if (num === 0) {
+        let health = scene.healths.create(x, y, 'heartFull').setScale(1.5);
+        health.setCollideWorldBounds(true);
+        health.setBounce(1);
+        health.setVelocity(Phaser.Math.Between(-200, 200), 20);
     }
 }
 
-function hitWasp(scene, player, wasp) {
+function hitEnemy(scene, player, enemy) {
     if (scene.player.attacking) {
-        wasp.disableBody(true, true);
-    } else if (!scene.player.guarding) {
-        damage(scene, player, wasp.attack);
-    }
-}
-
-function hitGolem(scene, player, golem) {
-    if (scene.player.attacking) {
-        golem.health -= 1;
-        if (golem.health <= 0) {
-            golem.disableBody(true, true);
+        enemy.health -= 1;
+        if (enemy.health <= 0) {
+            enemy.alive = false;
+            enemy.disableBody(true, true);
+            spawnHealth(scene, enemy.x, enemy.y,  4 - enemy.attack);
         }
     } else if (!scene.player.guarding) {
-        damage(scene, player, golem.attack);
+        damage(scene, player, enemy.attack);
     }
-}
 
-function hitGhost(scene, player, ghost) {
-    if (scene.player.attacking) {
-        ghost.health -= 1;
-        if (ghost.health <= 0) {
-            ghost.alive = false;
-            ghost.disableBody(true, true);
-        }
-    } else if (!scene.player.guarding) {
-        damage(scene, player, ghost.attack);
-    }
-}
-
-function hitKnight(scene, player, knight) {
-    if (scene.player.attacking) {
-        knight.health -= 1;
-        if (knight.health <= 0) {
-            knight.alive = false;
-            knight.disableBody(true, true);
-        }
-    } else if (!scene.player.guarding) {
-        damage(scene, player, knight.attack);
-    }
 }
 
 function hitBoss(scene, player, boss) {
@@ -217,5 +197,6 @@ window.standingUp = standingUp;
 window.overlapping = overlapping;
 window.damage = damage;
 window.direction = direction;
-window.hitSkull = hitSkull;
+window.collectHeart = collectHeart;
+window.hitEnemy = hitEnemy;
 window.updateHealth = updateHealth;

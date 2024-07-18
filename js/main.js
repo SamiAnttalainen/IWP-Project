@@ -37,6 +37,7 @@ window.onload = function() {
             Level_3_3,
             Level_3_4,
             Ending,
+            SelecLevel,
             GameOver,
             Options,
             Info,

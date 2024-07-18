@@ -1,7 +1,7 @@
 class MainMenu extends Screen {
 
     constructor() {
-        super('MainMenu', 'SUPER VALIS  X', 'SELECT:', ['START GAME', 'OPTIONS', 'INFO'], 225, 150, 275, 250, '64px', '32px');
+        super('MainMenu', 'SUPER VALIS  X', 'SELECT:', ['NEW GAME', 'LEVEL SELECTION', 'OPTIONS', 'INFO'], 225, 150, 275, 250, '64px', '32px');
     }
 
     preload() {
@@ -20,9 +20,14 @@ class MainMenu extends Screen {
         this.music.stop();
         if (this.selectedItemIndex === 0) {
             this.scene.start('Level_1_1');
-        } else if (this.selectedItemIndex === 1) {
+        }
+        else if (this.selectedItemIndex === 1) {
+            this.scene.start('SelectLevel');
+        }
+        else if (this.selectedItemIndex === 2) {
             this.scene.start('Options');
-        } else if (this.selectedItemIndex === 2) {
+        }
+        else if (this.selectedItemIndex === 3) {
             this.scene.start('Info');
         }
     }

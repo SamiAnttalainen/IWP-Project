@@ -1,6 +1,6 @@
 class Knight extends Enemy {
     constructor(scene, x, y) {
-        super(scene, x, y, 50, 3, 'enemy7', 'knightMovement');
+        super(scene, x, y, 150, 3, 'enemy7', 'knightMovement');
         this.setScale(1.15);
         this.spear = this.scene.physics.add.group();
         this.scene.physics.add.collider(this.spear, this.scene.player, (player, weapon) => this.hitSpear(player, weapon), null, this.scene);

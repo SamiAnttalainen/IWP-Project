@@ -20,7 +20,7 @@ class Level_1_4 extends Level_1 {
 
         if (this.player.getHealth() <= 0) {
             this.physics.pause();
-            this.scene.start('GameOver', {levelData: this.level});
+            this.scene.start('GameOver', {levelData: this.level, musicData: this.music });
         }
     }
 }
