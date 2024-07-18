@@ -15,6 +15,13 @@ function createHealthBar(scene) {
     });
 }
 
+
+function createHealths(scene) {
+    scene.healths = scene.physics.add.group({});
+    scene.physics.add.collider(scene.platforms, scene.healths);
+    scene.physics.add.overlap(scene.player, scene.healths, (player, heart) => collectHeart(scene, player, heart), null, scene);
+}
+
 function createAnimations(scene) {
     scene.anims.create({
         key: 'movement',
@@ -368,7 +375,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.skulls);
-        scene.physics.add.collider(scene.player, scene.skulls, (player, skull) => hitSkull(scene, player, skull), null, scene);
+        scene.physics.add.overlap(scene.player, scene.skulls, (player, skull) => hitEnemy(scene, player, skull), null, scene);
         scene.skulls.children.iterate(function (skull) {
             skull.setCollideWorldBounds(true);
         });
@@ -380,7 +387,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.wasps);
-        scene.physics.add.collider(scene.player, scene.wasps, (player, wasp) => hitWasp(scene, player, wasp), null, scene);
+        scene.physics.add.overlap(scene.player, scene.wasps, (player, wasp) => hitEnemy(scene, player, wasp), null, scene);
         scene.wasps.children.iterate(function (wasp) {
             wasp.setCollideWorldBounds(true);
             wasp.body.setAllowGravity(false);
@@ -393,7 +400,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.golems);
-        scene.physics.add.collider(scene.player, scene.golems, (player, golem) => hitGolem(scene, player, golem), null, scene);
+        scene.physics.add.overlap(scene.player, scene.golems, (player, golem) => hitEnemy(scene, player, golem), null, scene);
         scene.golems.children.iterate(function (golem) {
             golem.setCollideWorldBounds(true);
         });
@@ -401,11 +408,11 @@ function createEnemies(scene, posX, posY, amount, type) {
         scene.ghosts = scene.physics.add.group({
             classType: Ghost,
             key: 'enemy17',
-            quantity: amount,
+            quantity: amount, 
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.ghosts);
-        scene.physics.add.collider(scene.player, scene.ghosts, (player, ghost) => hitGhost(scene, player, ghost), null, scene);
+        scene.physics.add.overlap(scene.player, scene.ghosts, (player, ghost) => hitEnemy(scene, player, ghost), null, scene);
         scene.ghosts.children.iterate(function (ghost) {
             ghost.setCollideWorldBounds(true);
             ghost.body.setAllowGravity(false);
@@ -418,7 +425,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.knights);
-        scene.physics.add.collider(scene.player, scene.knights, (player, knight) => hitKnight(scene, player, knight), null, scene);
+        scene.physics.add.overlap(scene.player, scene.knights, (player, knight) => hitEnemy(scene, player, knight), null, scene);
         scene.knights.children.iterate(function (knight) {
             knight.setCollideWorldBounds(true);
         });
@@ -442,6 +449,7 @@ function createBoss(scene, number, posX, posY, health, attack) {
 
 
 window.createHealthBar = createHealthBar;
+window.createHealths = createHealths;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
 window.createEnemies = createEnemies;

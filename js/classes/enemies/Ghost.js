@@ -1,6 +1,6 @@
 class Ghost extends Enemy {
   constructor(scene, x, y) {
-    super(scene, x, y, 50, 3, 'enemy17', 'ghostMovement');
+    super(scene, x, y, 150, 3, 'enemy17', 'ghostMovement');
     this.bolts = this.scene.physics.add.group();
     this.scene.physics.add.collider(this.bolts, this.scene.player, (player, weapon) => this.hitBolt(player, weapon), null, this.scene);
     this.shoot();

@@ -44,6 +44,9 @@ class Level_3 extends Phaser.Scene {
 
         // Create player
         createPlayer(this, 100, 470);
+
+        // Create health pickups
+        createHealths(this);
     }
 
     update() {
