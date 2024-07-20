@@ -1,3 +1,4 @@
+// Function loads all the basic images for the game
 function loadImages(scene) {
     for (let i = 1; i <= 23; i++) {
         scene.load.image('lena' + i, 'assets/lena/lena_' + i + '.png');
@@ -44,6 +45,7 @@ function loadBossThreeImages(scene) {
     scene.load.image('ball_2', 'assets/bosses/gallagher/ball (2).png');
 }
 
+// When the player clears a level, this function is called to load the next level
 function loadNextLevel(scene, level, music) {
     scene.add.text(50, 150, 'STAGE CLEARED.\nPREPARE FOR NEXT STAGE!',
         {
@@ -57,7 +59,7 @@ function loadNextLevel(scene, level, music) {
     
 }
 
-
+// When the player clears a map, this function is called to load the next map
 function loadNextMap(scene, level, music) {
     music.stop();
     scene.victory = scene.sound.add('victory', {volume: 0.25});
@@ -73,6 +75,7 @@ function loadNextMap(scene, level, music) {
     }, [], scene);
 }
 
+// When the player beats the game, this function is called to load the ending scene
 function loadEnding(scene, music) {
     music.stop();
     scene.victory = scene.sound.add('victory', {volume: 0.25});

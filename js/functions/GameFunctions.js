@@ -1,3 +1,4 @@
+// Function handles player movement
 function gameMovement(scene) {
     if (scene.cursors.left.isDown) { // Move left
         if (scene.player.crouching) {
@@ -137,6 +138,7 @@ function collectPotion(scene, player, potion) {
     });
 }
 
+// Function to spawn objects when an enemy is defeated
 function spawnObject(scene, x, y, rate) {
     let num = Phaser.Math.Between(0, rate);
     if (num === 0) {
@@ -152,6 +154,7 @@ function spawnObject(scene, x, y, rate) {
     } 
 }
 
+// Function to handle player damage taken
 function damage(scene, player, amount) {
     let health = player.getHealth() - amount;
     player.setHealth(health);
@@ -167,6 +170,7 @@ function damage(scene, player, amount) {
     }, 1000);
 }
 
+// Function to handle player damage taken from enemies
 function hitEnemy(scene, player, enemy) {
     if (scene.player.attacking) {
         enemy.health -= player.attack;
@@ -185,6 +189,7 @@ function hitEnemy(scene, player, enemy) {
 
 }
 
+// Function to handle player damage taken from bosses
 function hitBoss(scene, player, boss) {
     if (scene.player.attacking) {
         boss.health -= player.attack;

@@ -1,3 +1,4 @@
+// Function creates health bar to the top left corner of the screen.
 function createHealthBar(scene) {
     // Health bar UI inspired by Scott Westover https://www.youtube.com/watch?v=5LUDslRr-74
     scene.hearts = scene.add.group({
@@ -15,18 +16,21 @@ function createHealthBar(scene) {
     });
 }
 
+// Function creates health pickup items
 function createHealths(scene) {
     scene.healths = scene.physics.add.group({});
     scene.physics.add.collider(scene.platforms, scene.healths);
     scene.physics.add.overlap(scene.player, scene.healths, (player, heart) => collectHeart(scene, player, heart), null, scene);
 }
 
+// Function creates attack boost pickup items
 function createPotions(scene) {
     scene.potions = scene.physics.add.group({});
     scene.physics.add.collider(scene.platforms, scene.potions);
     scene.physics.add.overlap(scene.player, scene.potions, (player, potion) => collectPotion(scene, player, potion), null, scene);
 }
 
+// Function creates player movement animations
 function createAnimations(scene) {
     scene.anims.create({
         key: 'movement',
@@ -348,6 +352,7 @@ function createBossThreeAnimations(scene) {
     
 }
 
+// Function creates player to the current scene and sets colliders and overlappers
 function createPlayer(scene, posX, posY) {
     // Player
     scene.player = new Lena(scene, posX, posY);
@@ -356,7 +361,7 @@ function createPlayer(scene, posX, posY) {
     scene.physics.add.overlap(scene.player, scene.platforms, () => overlapping(scene), null, scene);
 }
 
-
+// Function creates certain type of enemies to the current scene and sets colliders and overlappers
 function createEnemies(scene, posX, posY, amount, type) {
 
     if (type === 'Skull') {
@@ -424,6 +429,7 @@ function createEnemies(scene, posX, posY, amount, type) {
     }
 }
 
+// Function creates certain boss to the current scene and sets colliders and overlappers
 function createBoss(scene, number, posX, posY, health, attack) {
 
     if (number === 1) {
