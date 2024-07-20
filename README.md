@@ -17,7 +17,9 @@ The game was supposed to have four maps, but it was scrapped due to deadline req
 
 * Player's attack animations do not work correctly due to the game's physics engine or my skill issue
 * Sometimes custom font does not load when launching the game
-* Sometimes player might collide in burst with the enemy and immediately die (Most likely happens if player jumps on enemy or vice versa)
+* Sometimes player might collide in burst with the enemy and immediately die (Most likely happens if player jumps on enemy while not attacking or enemy falls on player)
+* Sometimes while attacking player burst collides with enemy and deals more damage than intended to the enemy
+* If projectile spawns on player, then it might not collide with the player
 
 ## Screenshots of the game
 
