@@ -45,6 +45,9 @@ class Level_1 extends Phaser.Scene {
 
         // Create health pickups
         createHealths(this);
+
+        // Create potions
+        createPotions(this);
     }
 
     update() {

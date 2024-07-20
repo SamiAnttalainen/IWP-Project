@@ -11,14 +11,18 @@ window.onload = function() {
     let config = {
         type: Phaser.AUTO,
         backgroundColor: '#00000', // Black
-        width: WIDTH,
-        height: HEIGTH,
+        scale: {
+            mode: Phaser.Scale.FIT,
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            width: WIDTH,
+            height: HEIGTH,
+        }, 
         physics: {
             default: 'arcade',
             arcade: {
                 gravity: { y: 300 },
                 tileBias: 16,
-                debug: true
+                debug: false
             }
         },
         scene: [

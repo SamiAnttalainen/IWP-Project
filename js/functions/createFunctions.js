@@ -21,6 +21,12 @@ function createHealths(scene) {
     scene.physics.add.overlap(scene.player, scene.healths, (player, heart) => collectHeart(scene, player, heart), null, scene);
 }
 
+function createPotions(scene) {
+    scene.potions = scene.physics.add.group({});
+    scene.physics.add.collider(scene.platforms, scene.potions);
+    scene.physics.add.overlap(scene.player, scene.potions, (player, potion) => collectPotion(scene, player, potion), null, scene);
+}
+
 function createAnimations(scene) {
     scene.anims.create({
         key: 'movement',
@@ -386,7 +392,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.golems);
-        scene.physics.add.overlap(scene.player, scene.golems, (player, golem) => hitEnemy(scene, player, golem), null, scene);
+        scene.physics.add.collider(scene.player, scene.golems, (player, golem) => hitEnemy(scene, player, golem), null, scene);
         scene.golems.children.iterate(function (golem) {
             golem.setCollideWorldBounds(true);
         });
@@ -411,7 +417,7 @@ function createEnemies(scene, posX, posY, amount, type) {
             setXY: { x: posX, y: posY, stepX: 200 },
         });
         scene.physics.add.collider(scene.platforms, scene.knights);
-        scene.physics.add.overlap(scene.player, scene.knights, (player, knight) => hitEnemy(scene, player, knight), null, scene);
+        scene.physics.add.collider(scene.player, scene.knights, (player, knight) => hitEnemy(scene, player, knight), null, scene);
         scene.knights.children.iterate(function (knight) {
             knight.setCollideWorldBounds(true);
         });
@@ -436,6 +442,7 @@ function createBoss(scene, number, posX, posY, health, attack) {
 
 window.createHealthBar = createHealthBar;
 window.createHealths = createHealths;
+window.createPotions = createPotions;
 window.createAnimations = createAnimations;
 window.createPlayer = createPlayer;
 window.createEnemies = createEnemies;

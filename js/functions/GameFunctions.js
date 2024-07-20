@@ -103,6 +103,55 @@ function overlapping(scene) {
     scene.player.body.setVelocityY(-75);
 }
 
+
+// Function calculates the projectile direction and angle.
+function direction(scene, weapon, x, y, degree = 180) {
+    const velocity = 100;
+    let dx = scene.player.x - x;
+    let dy = scene.player.y - y;
+    let len = Math.sqrt(dx**2 + dy**2); // Normalizing the vector
+    dx = dx / len;
+    dy = dy / len;
+    let angle = Math.atan2(dy, dx);
+    angle = angle * (DEGREE / Math.PI); // Chaning radians to degrees
+    weapon.setVelocityX(dx * velocity);
+    weapon.setVelocityY(dy * velocity);
+    weapon.setAngle(angle + degree);
+}
+
+function collectHeart(scene, player, heart) {
+    heart.disableBody(true, true);
+    if (player.getHealth() < player.getMaxHealth()) {
+        let health = player.getHealth() + 1;
+        player.setHealth(health);
+        updateHealth(scene);
+    }
+}
+
+function collectPotion(scene, player, potion) {
+    potion.disableBody(true, true);
+    player.attack += 1;
+    
+    scene.time.delayedCall(15000, () => {
+        player.attack -= 1;
+    });
+}
+
+function spawnObject(scene, x, y, rate) {
+    let num = Phaser.Math.Between(0, rate);
+    if (num === 0) {
+        let health = scene.healths.create(x, y, 'heartFull').setScale(1.5);
+        health.setCollideWorldBounds(true);
+        health.setBounce(1);
+        health.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    } else if (num === 1) {
+        let potion = scene.potions.create(x, y, 'potion').setScale(1.5);
+        potion.setCollideWorldBounds(true);
+        potion.setBounce(1);
+        potion.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    } 
+}
+
 function damage(scene, player, amount) {
     let health = player.getHealth() - amount;
     player.setHealth(health);
@@ -118,47 +167,17 @@ function damage(scene, player, amount) {
     }, 1000);
 }
 
-// Function calculates the projectile direction and angle.
-function direction(scene, weapon, x, y, degree = 180) {
-    const velocity = 100;
-    let dx = scene.player.x - x;
-    let dy = scene.player.y - y;
-    let len = Math.sqrt(dx**2 + dy**2);
-    dx = dx / len;
-    dy = dy / len;
-    let angle = Math.atan2(dy, dx);
-    angle = angle * (DEGREE / Math.PI);
-    weapon.setVelocityX(dx * velocity);
-    weapon.setVelocityY(dy * velocity);
-    weapon.setAngle(angle + degree);
-}
-
-function collectHeart(scene, player, heart) {
-    heart.disableBody(true, true);
-    if (player.getHealth() < player.getMaxHealth()) {
-        let health = player.getHealth() + 1;
-        player.setHealth(health);
-        updateHealth(scene);
-    }
-}
- 
-function spawnHealth(scene, x, y, rate) {
-    let num = Phaser.Math.Between(0, rate);
-    if (num === 0) {
-        let health = scene.healths.create(x, y, 'heartFull').setScale(1.5);
-        health.setCollideWorldBounds(true);
-        health.setBounce(1);
-        health.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    }
-}
-
 function hitEnemy(scene, player, enemy) {
     if (scene.player.attacking) {
-        enemy.health -= 1;
+        enemy.health -= player.attack;
+        enemy.setTint(0xff0000);
+        setTimeout(() => {
+            enemy.clearTint();
+        }, 1000);
         if (enemy.health <= 0) {
             enemy.alive = false;
             enemy.disableBody(true, true);
-            spawnHealth(scene, enemy.x, enemy.y,  4 - enemy.attack);
+            spawnObject(scene, enemy.x, enemy.y,  4 - enemy.attack);
         }
     } else if (!scene.player.guarding) {
         damage(scene, player, enemy.attack);
@@ -168,7 +187,7 @@ function hitEnemy(scene, player, enemy) {
 
 function hitBoss(scene, player, boss) {
     if (scene.player.attacking) {
-        boss.health -= 1;
+        boss.health -= player.attack;
         console.log(scene.boss.health);
         if (scene.boss.health <= 0) {
             boss.alive = false;

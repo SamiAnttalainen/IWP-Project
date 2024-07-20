@@ -12,6 +12,7 @@ function loadImages(scene) {
     scene.load.image('platform', 'assets/screenassets/platform.png');
     scene.load.image('block', 'assets/screenassets/block.png');
     scene.load.image('bomb', 'assets/screenassets/bomb.png');
+    scene.load.image('potion', 'assets/screenassets/potion.png');
     scene.load.image('heartFull', 'assets/screenassets/heartFull.png');
     scene.load.image('heartEmpty', 'assets/screenassets/heartEmpty.png');
     scene.load.image('bottomFloor', 'assets/screenassets/bottomFloor.png');
