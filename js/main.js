@@ -6,6 +6,10 @@ const IDLE = 2;
 const DEGREE = 180;
 let game;
 
+const musicState = {
+    musicOn: true
+}
+
 
 window.onload = function() {
     let config = {
